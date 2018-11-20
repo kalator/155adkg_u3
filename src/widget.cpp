@@ -17,3 +17,8 @@ void Widget::on_clearButton_clicked()
 {
     ui->canvas->clearCanvas();
 }
+
+void Widget::on_dtButton_clicked()
+{
+    ui->canvas->setDT();
+}

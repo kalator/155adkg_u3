@@ -27,12 +27,16 @@ SOURCES += \
         main.cpp \
         widget.cpp \
     draw.cpp \
-    algorithms.cpp
+    algorithms.cpp \
+    edge.cpp \
+    sortbyxasc.cpp
 
 HEADERS += \
         widget.h \
     draw.h \
-    algorithms.h
+    algorithms.h \
+    edge.h \
+    sortbyxasc.h
 
 FORMS += \
         widget.ui

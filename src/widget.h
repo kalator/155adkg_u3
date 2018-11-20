@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "algorithms.h"
+
 namespace Ui {
 class Widget;
 }
@@ -17,6 +19,8 @@ public:
 
 private slots:
     void on_clearButton_clicked();
+
+    void on_dtButton_clicked();
 
 private:
     Ui::Widget *ui;
