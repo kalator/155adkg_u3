@@ -5,66 +5,58 @@
 Draw::Draw(QWidget *parent) : QWidget(parent)
 {
     srand((unsigned)time(0));
-
-    /*
-    QPoint p1(462,  157);
-    QPoint p2(289,  294);
-    QPoint p3(496,  361);
-    QPoint p4(714,  200);
-    */
-    /*
- QPoint p1(467,  163);
- QPoint p2(340,  273);
- QPoint p3(361,  425);
- QPoint p4(744,  271);
- QPoint p5(544,  330);
- QPoint p6(68,  636);
- QPoint p7(70,  660);
- QPoint p8(881,  513);
- QPoint p9(937,  39);
- QPoint p10(926,  330);
-
-
-    points.push_back(p1);
-    points.push_back(p2);
-    points.push_back(p3);
-    points.push_back(p4);
-    points.push_back(p5);
-    points.push_back(p6);
-    points.push_back(p7);
-    points.push_back(p8);
-    points.push_back(p9);
-    points.push_back(p10);
-    */
-
 }
 
 void Draw::paintEvent(QPaintEvent *e)
 {
    QPainter painter(this);
-   painter.begin(this);
-   painter.setPen(Qt::red);
-
-   //Draw points
-   for(int i = 0; i < points.size(); i++)
-   {
-       painter.drawEllipse(points[i].x() - 5, points[i].y() - 5, 10, 10);
-       painter.drawText(points[i].x() + 10, points[i].y() + 10, QString::number(points[i].getZ()));
-   }
+   QPen cont_norm(Qt::black, 1);
+   QPen cont_main(Qt::black, 3);
+   QPen pen_points(Qt::blue, 3);
+   QPen pen_dt(Qt::red, 1);
 
    //Draw Delaunay edges
+   painter.setPen(pen_dt);
    for(int i = 0; i < dt.size(); i++)
    {
        painter.drawLine(dt[i].getS(), dt[i].getE());
    }
 
-   //Draw contour lines
-   painter.setPen(Qt::green);
-
-   for(int i = 0; i < contours.size(); i++)
+   //Draw points
+   painter.setPen(pen_points);
+   for(int i = 0; i < points.size(); i++)
    {
-       painter.drawLine(contours[i].getS(), contours[i].getE());
+       painter.drawPoint(points[i].x(), points[i].y());
+      // painter.drawText(points[i].x() + 10, points[i].y() + 10, QString::number(points[i].getZ()));
    }
+
+   //Draw contour lines
+   if(draw_main)
+   {
+       for(int i = 0; i < contours.size(); i++)
+       {
+           int h = contour_heights[i];
+           if(!(h%(5*step)))
+           {
+               painter.setPen(cont_main);
+           }
+           else
+           {
+               painter.setPen(cont_norm);
+           }
+
+           painter.drawLine(contours[i].getS(), contours[i].getE());
+       }
+   }
+   else
+   {
+       painter.setPen(cont_norm);
+       for(int i = 0; i < contours.size(); i++)
+       {
+           painter.drawLine(contours[i].getS(), contours[i].getE());
+       }
+   }
+
 
    //Draw slope
    double c = 255.0/180;
@@ -92,7 +84,7 @@ void Draw::paintEvent(QPaintEvent *e)
    painter.end();
 }
 
-void Draw::mousePressEvent(QMouseEvent *e)
+/*void Draw::mousePressEvent(QMouseEvent *e)
 {
     //Add new point
     int z = (rand()%101);
@@ -100,6 +92,7 @@ void Draw::mousePressEvent(QMouseEvent *e)
     points.push_back(p);
     repaint();
 }
+*/
 
 void Draw::clearDT()
 {
@@ -108,5 +101,56 @@ void Draw::clearDT()
     dt.clear();
     dtm.clear();
     contours.clear();
+}
+
+void Draw::loadPoints(std::string path, QSizeF &canvas_size, double &min_z, double &max_z)
+{
+    clearDT();
+    std::ifstream points_file;
+    points_file.open(path);
+
+    //check if points_file is correctly open (or if it exists)
+    if(!points_file.is_open())
+    {
+        return;
+    }
+
+
+    //go through file and load points into poly_pol (storing all polygons)
+    double min_x = std::numeric_limits<double>::max();
+    double min_y = std::numeric_limits<double>::max();
+    min_z = std::numeric_limits<double>::max();
+    double max_x = std::numeric_limits<double>::min();
+    double max_y = std::numeric_limits<double>::min();
+    max_z = std::numeric_limits<double>::min();
+
+    while(points_file.good())
+    {
+        double x,y,z;
+        points_file >> x;
+        points_file >> y;
+        points_file >> z;
+        points.push_back(QPoint3D(x, y, z));
+        if(x < min_x) min_x = x;
+        if(x > max_x) max_x = x;
+        if(y < min_y) min_y = y;
+        if(y > max_y) max_y = y;
+        if(z < min_z) min_z = z;
+        if(z > max_z) max_z = z;
+    }
+
+    //scale points to canvas size
+    double h = canvas_size.height();
+    double w = canvas_size.width();
+
+    double x_coef = w/(max_x-min_x);
+    double y_coef = h/(max_y-min_y);
+
+    for(int i = 0; i < points.size(); i++)
+    {
+        points[i].setX((points[i].x()-min_x)*x_coef);
+        points[i].setY((points[i].y()-min_y)*y_coef);
+    }
+    points_file.close();
 }
 

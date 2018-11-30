@@ -267,11 +267,10 @@ QPoint3D Algorithms::getContourPoint(QPoint3D &p1, QPoint3D &p2, double z)
     return p;
 }
 
-std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min, double z_max, double dz)
+std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min, double z_max, double dz, std::vector<double> &contour_heights)
 {
     //Create contour lines
     std::vector<Edge> contours;
-
 
     //Process all triangles
     for(int i = 0; i < dt.size(); i += 3)
@@ -305,15 +304,24 @@ std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min
 
            //Edge e12 is colinear
            else if(dz1 == 0 && dz2 == 0)
+           {
                 contours.push_back(dt[i]);
+                contour_heights.push_back(z);
+           }
 
            //Edge e23 is colinear
            else if(dz2 == 0 && dz3 == 0)
-                contours.push_back(dt[i+1]);
+           {
+               contours.push_back(dt[i+1]);
+               contour_heights.push_back(z);
+           }
 
            //Edge e31 is colinear
            else if(dz3 == 0 && dz1 == 0)
+           {
                 contours.push_back(dt[i+2]);
+                contour_heights.push_back(z);
+           }
 
            //Plane intersects edges 1 and 2
            else if((dz12 <= 0 && dz23 < 0) || (dz12 < 0 && dz23 <= 0))
@@ -324,6 +332,7 @@ std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min
 
                Edge c(a,b);
                contours.push_back(c);
+               contour_heights.push_back(z);
            }
 
            //Plane intersects edges 2 and 3
@@ -335,6 +344,7 @@ std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min
 
                Edge c(a,b);
                contours.push_back(c);
+               contour_heights.push_back(z);
            }
 
            //Plane intersects edges 3 and 1
@@ -346,6 +356,7 @@ std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min
 
                Edge c(a,b);
                contours.push_back(c);
+               contour_heights.push_back(z);
            }
         }
     }

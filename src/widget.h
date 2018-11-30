@@ -16,16 +16,19 @@ public:
     ~Widget();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_del_button_clicked();
 
-    void on_pushButton_3_clicked();
+    void on_clear_button_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_cont_button_clicked();
 
-    void on_pushButton_4_clicked();
+    void on_slope_button_clicked();
+
+    void on_load_points_button_clicked();
 
 private:
     Ui::Widget *ui;
+    double z_min, z_max;
 };
 
 #endif // WIDGET_H
