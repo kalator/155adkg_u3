@@ -1,6 +1,3 @@
 #include "sortbyxasc.h"
 
-SortByXAsc::SortByXAsc()
-{
-
-}
+SortByXAsc::SortByXAsc(){}

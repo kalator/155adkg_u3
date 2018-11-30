@@ -1,19 +1,20 @@
 #ifndef EDGE_H
 #define EDGE_H
 
-#include <QPoint>
+#include "qpoint3d.h"
+
 
 class Edge
 {
 private:
-    QPoint s, e;
+    QPoint3D s, e;
 public:
-    Edge(QPoint &start, QPoint &end):s(start),e(end){}
-    QPoint & getS() {return s;}
-    QPoint & getE() {return e;}
+    Edge(QPoint3D &start, QPoint3D &end):s(start),e(end){}
+    QPoint3D & getS() {return s;}
+    QPoint3D & getE() {return e;}
     void switchOr()
     {
-        QPoint temp = s;
+        QPoint3D temp = s;
         s = e;
         e = temp;
     }
@@ -24,6 +25,5 @@ public:
     }
 
 };
-
 
 #endif // EDGE_H

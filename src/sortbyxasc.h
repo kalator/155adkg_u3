@@ -1,17 +1,18 @@
 #ifndef SORTBYXASC_H
 #define SORTBYXASC_H
 
-#include <QtGui>
+#include<QtGui>
+#include "qpoint3d.h"
+
 
 class SortByXAsc
 {
 public:
     SortByXAsc();
 
-    //override (), sort by x, if x-es are same, sort by y, ascending
-    bool operator()(QPoint &p1, QPoint &p2)
+    bool operator()(QPoint3D &p1, QPoint3D &p2)
     {
-        return (p1.x() < p2.x())||(p1.x()==p2.x() && p1.y() < p2.y());
+        return (p1.x()<p2.x())||((p1.x()==p2.x())&&(p1.y()<p2.y()));
     }
 };
 
