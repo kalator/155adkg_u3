@@ -5,6 +5,8 @@
 Draw::Draw(QWidget *parent) : QWidget(parent)
 {
     srand((unsigned)time(0));
+    this->draw_aspect = false;
+    this->draw_slope = false;
 }
 
 void Draw::paintEvent(QPaintEvent *e)
@@ -14,6 +16,7 @@ void Draw::paintEvent(QPaintEvent *e)
    QPen cont_main(Qt::black, 3);
    QPen pen_points(Qt::blue, 3);
    QPen pen_dt(Qt::red, 1);
+   QPen pen_slope(Qt::black, 0);
 
    //Draw Delaunay edges
    painter.setPen(pen_dt);
@@ -59,26 +62,59 @@ void Draw::paintEvent(QPaintEvent *e)
 
 
    //Draw slope
-   double c = 255.0/180;
-   for(int i = 0; i < dtm.size(); i++)
+   if(this->draw_slope)
    {
-       //Get triangle and its vertices
-       Triangle t = dtm[i];
-       QPoint3D p1 = t.getP1();
-       QPoint3D p2 = t.getP2();
-       QPoint3D p3 = t.getP3();
+       double c = 255.0/180;
+       for(int i = 0; i < dtm.size(); i++)
+       {
+           //Get triangle and its vertices
+           Triangle t = dtm[i];
+           QPoint3D p1 = t.getP1();
+           QPoint3D p2 = t.getP2();
+           QPoint3D p3 = t.getP3();
 
-       //Get slope and setthe brush
-       int c_slope = c * t.getSlope();
-       painter.setBrush(QColor(c_slope,c_slope,c_slope));
+           //Get slope and set the brush
+           int c_slope = c * t.getSlope();
+           painter.setBrush(QColor(c_slope,c_slope,c_slope));
+           painter.setPen(pen_slope);
 
-       //Create and drawthe  polygon
-       QPolygon triangle;
-       triangle.append(QPoint(p1.x(), p1.y()));
-       triangle.append(QPoint(p2.x(), p2.y()));
-       triangle.append(QPoint(p3.x(), p3.y()));
+           //Create and drawthe  polygon
+           QPolygon triangle;
+           triangle.append(QPoint(p1.x(), p1.y()));
+           triangle.append(QPoint(p2.x(), p2.y()));
+           triangle.append(QPoint(p3.x(), p3.y()));
 
-       painter.drawPolygon(triangle);
+           painter.drawPolygon(triangle);
+       }
+   }
+
+   //Draw aspect
+   if(this->draw_aspect)
+   {
+       std::vector<QColor> colors = genAspColors();
+
+       double c = 255.0/360;
+       for(int i = 0; i < dtm.size(); i++)
+       {
+           //Get triangle and its vertices
+           Triangle t = dtm[i];
+           QPoint3D p1 = t.getP1();
+           QPoint3D p2 = t.getP2();
+           QPoint3D p3 = t.getP3();
+
+           //Get aspect and set the brush
+           int c_aspect = c*t.getAspect();
+           painter.setBrush(colors[c_aspect]);
+           painter.setPen(pen_slope);
+
+           //Create and drawthe  polygon
+           QPolygon triangle;
+           triangle.append(QPoint(p1.x(), p1.y()));
+           triangle.append(QPoint(p2.x(), p2.y()));
+           triangle.append(QPoint(p3.x(), p3.y()));
+
+           painter.drawPolygon(triangle);
+       }
    }
 
    painter.end();
@@ -97,6 +133,8 @@ void Draw::paintEvent(QPaintEvent *e)
 void Draw::clearDT()
 {
     //Clear all
+    this->draw_aspect = false;
+    this->draw_slope = false;
     points.clear();
     dt.clear();
     dtm.clear();
@@ -152,5 +190,27 @@ void Draw::loadPoints(std::string path, QSizeF &canvas_size, double &min_z, doub
         points[i].setY((points[i].y()-min_y)*y_coef);
     }
     points_file.close();
+}
+
+std::vector<QColor> Draw::genAspColors()
+{
+    std::vector<QColor> colors;
+
+    for(int i = 0; i < 256; i++)
+    {
+        if(i <= (22.5*255/360)) colors.push_back(QColor(255,0,0)); //red
+        else if(i > (22.5*255/360) && i <= (67.5*255/360)) colors.push_back(QColor(255,165,0)); //orange
+        else if(i > (67.5*255/360) && i <= (112.5*255/360)) colors.push_back(QColor(255,255,0)); //yellow
+        else if(i > (112.5*255/360) && i <= (157.5*255/360))colors.push_back(QColor(0,255,0)); //lime
+        else if(i > (157.5*255/360) && i <= (202.5*255/360))colors.push_back(QColor(0,255,255)); //cyan
+        else if(i > (202.5*255/360) && i <= (247.5*255/360))colors.push_back(QColor(0,191,255)); //deepskyblue
+        else if(i > (247.5*255/360) && i <= (292.5*255/360))colors.push_back(QColor(0,0,255)); //blue
+        else if(i > (292.5*255/360) && i <= (337.5*255/360))colors.push_back(QColor(255,0,255)); //magenta
+        else if(i > (337.5*255/360))colors.push_back(QColor(255,0,0)); //red
+
+    }
+
+    return colors;
+
 }
 

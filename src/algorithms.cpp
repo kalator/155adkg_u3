@@ -419,7 +419,7 @@ std::vector<Triangle> Algorithms::analyzeDTM(std::vector<Edge> &dt)
 
         //Compute slope and aspect
         double slope = getSlope(p1, p2, p3);
-        double aspect = getAspect(p1, p2, p3);
+        double aspect = getAspect(p1, p2, p3) + 180;
 
         //Create the triangle
         Triangle t(p1, p2, p3, slope, aspect);

@@ -22,6 +22,8 @@ class Draw : public QWidget
         std::vector<Triangle> dtm;
         bool draw_main;
         int step;
+        bool draw_slope;
+        bool draw_aspect;
 
     public:
         explicit Draw(QWidget *parent = nullptr);
@@ -36,6 +38,10 @@ class Draw : public QWidget
         {contours = contours_; contour_heights = contour_heights_; step = step_; draw_main = draw_main_;}
         void setDTM(std::vector<Triangle> &dtm_){dtm = dtm_;}
         void loadPoints(std::string points_path, QSizeF &canvas_size, double &min_z, double &max_z);
+        void setDrawSlope(){this->draw_slope = !this->draw_slope; this->draw_aspect = false;}
+        void setDrawAspect(){this->draw_aspect = !this->draw_aspect; this->draw_slope = false;}
+        std::vector<QColor> genAspColors();
+
 
     signals:
 

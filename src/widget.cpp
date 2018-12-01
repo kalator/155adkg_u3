@@ -5,6 +5,7 @@
 #include <fstream>
 #include <QtGui>
 #include <cmath>
+#include <QPixmap>
 
 
 //#include "edge.h"
@@ -36,8 +37,18 @@ void Widget::on_del_button_clicked()
     f.close();
     */
     std::vector<Edge> dt = Algorithms::DT(points);
+    std::vector<Triangle> dtm = Algorithms::analyzeDTM(dt);
     ui->Canvas->setDT(dt);
+    ui->Canvas->setDTM(dtm);
     repaint();
+
+    //set contour and slope and aspect buttons enabled
+    if(!(ui->Canvas->getDT().empty()))
+    {
+        ui->cont_button->setEnabled(true);
+        ui->slope_button->setEnabled(true);
+        ui->aspect_button->setEnabled(true);
+    }
 }
 
 void Widget::on_clear_button_clicked()
@@ -45,6 +56,12 @@ void Widget::on_clear_button_clicked()
     //Clear and repaint
     ui->Canvas->clearDT();
     repaint();
+
+    ui->del_button->setEnabled(false);
+    ui->cont_button->setEnabled(false);
+    ui->slope_button->setEnabled(false);
+    ui->aspect_button->setEnabled(false);
+    ui->pic->clear();
 }
 
 void Widget::on_cont_button_clicked()
@@ -72,10 +89,7 @@ void Widget::on_cont_button_clicked()
 
 void Widget::on_slope_button_clicked()
 {
-    //Analyze slope and aspect
-    std::vector<Edge> dt = ui->Canvas->getDT();
-    std::vector<Triangle> dtm = Algorithms::analyzeDTM(dt);
-    ui->Canvas->setDTM(dtm);
+    ui->Canvas->setDrawSlope();
     repaint();
 }
 
@@ -99,5 +113,31 @@ void Widget::on_load_points_button_clicked()
     QSizeF canvas_size = ui->Canvas->size();
 
     ui->Canvas->loadPoints(point_path_utf8, canvas_size, this->z_min, this->z_max); //load
+    repaint();
+
+    //enable triangulation button
+    if(!(ui->Canvas->getPoints().empty()))
+        ui->del_button->setEnabled(true);
+
+    //disable analysis buttons
+    ui->cont_button->setEnabled(false);
+    ui->slope_button->setEnabled(false);
+    ui->aspect_button->setEnabled(false);
+    ui->pic->clear();
+}
+
+void Widget::on_aspect_button_clicked()
+{
+    ui->Canvas->setDrawAspect();
+
+
+    //get path to directory upper of build
+    QDir current_path = QDir::currentPath();
+    current_path.cdUp();
+    QString path = current_path.path();
+
+    QPixmap pix(path + "/asp_colors.gif");
+    ui->pic->setPixmap(pix.scaled(100,100,Qt::KeepAspectRatio));
+
     repaint();
 }

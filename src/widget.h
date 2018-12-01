@@ -26,6 +26,8 @@ private slots:
 
     void on_load_points_button_clicked();
 
+    void on_aspect_button_clicked();
+
 private:
     Ui::Widget *ui;
     double z_min, z_max;

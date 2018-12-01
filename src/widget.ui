@@ -105,6 +105,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="del_button">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
@@ -128,7 +131,7 @@
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>80</height>
+         <height>40</height>
         </size>
        </property>
       </spacer>
@@ -176,6 +179,9 @@
        <property name="text">
         <string>Main contours</string>
        </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -186,10 +192,16 @@
        <property name="text">
         <string>Labels</string>
        </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="cont_button">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
@@ -213,7 +225,7 @@
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>40</height>
+         <height>50</height>
         </size>
        </property>
       </spacer>
@@ -240,17 +252,10 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="over_contours">
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="text">
-        <string>Over contours</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="slope_button">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
@@ -261,6 +266,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="aspect_button">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
@@ -277,52 +285,22 @@
       </widget>
      </item>
      <item>
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
+      <widget class="QLabel" name="pic">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>9</verstretch>
+        </sizepolicy>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>80</height>
-        </size>
+       <property name="text">
+        <string/>
        </property>
-      </spacer>
+      </widget>
      </item>
      <item>
       <widget class="Line" name="line_7">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="aspect_clear_button">
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="text">
-        <string>Clear aspect</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="slope_clear_button">
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="text">
-        <string>Clear slope</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="cont_clear_button">
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="text">
-        <string>Clear contours</string>
        </property>
       </widget>
      </item>
