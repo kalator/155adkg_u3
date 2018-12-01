@@ -2,6 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QFileDialog>
 
 namespace Ui {
 class Widget;
