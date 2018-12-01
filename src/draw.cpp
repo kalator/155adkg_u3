@@ -42,6 +42,10 @@ void Draw::paintEvent(QPaintEvent *e)
            if(!(h%(5*step)))
            {
                painter.setPen(cont_main);
+
+               double text_x = (contours[i].getS().x() + contours[i].getE().x())/2;
+               double text_y = (contours[i].getS().y() + contours[i].getE().y())/2;
+               painter.drawText(text_x, text_y, QString::number(h));
            }
            else
            {
@@ -49,6 +53,7 @@ void Draw::paintEvent(QPaintEvent *e)
            }
 
            painter.drawLine(contours[i].getS(), contours[i].getE());
+
        }
    }
    else
