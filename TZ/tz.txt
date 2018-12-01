@@ -1,0 +1,115 @@
+1) Zadání
+
+Navrhnìte aplikaci s grafickým rozhraním, která 
+urèí a vizualizuje konvexní obálku množiny bodù.
+Pro výpoèet konvexní obálky použijte algoritmy Jarvis Scan, Quick Hull a Sweep Line.
+
+Pro testování algoritmù užijte rozložení bodù: 
+1) náhodné
+2) møížka
+3) kružnice
+---------------------------------------------------------------------------
+
+2)	Údaje o bonusových úlohách
+
+V rámci této úlohy byly zpracovány všechny bonusy z nabídky.
+
+-------------------------------------------------------------------------------
+
+
+3)	Popis a rozbor 
+
+Mìjme množinu bodù Pi, naším úkolem je nalézt konvexní obálku !!!!!!KAPA!!!!! této množiny. 
+Pro tuto úlohu byly pro výpoèet konvexní obálky vybrány algortimy Jarvis Scan, Graham Scan, Quick Hull a Sweep Line, 
+podrobnìji o nich bude pojednáno v další kapitole.
+
+Konvexní obálka mùže být použita pro generalizaci v digitální kartografii (napø. budov),
+pro nalezení vhodného tvaru pro balení pøedmìtù tak, aby se minimalizovaly náklady a podobnì.
+
+-----------------------------------------------------------------------------
+
+4) Popis algoritmù
+
+Jarvis Scan
+-----------
+
+
+
+Graham Scan
+ ----------
+ 
+ 
+ 
+Quick Hull 
+---------
+
+
+
+
+
+Sweep Line
+-------------
+
+
+
+
+
+
+----------------------------------------------------------------------------------
+
+5)	Problematické situace 
+
+
+
+
+----------------------------------------------------------------------------------
+6) Vstupní data
+
+Množinu bodù lze zadat dvìma zpùsoby- body je možné tvoøit klikáním na kanvas nebo 
+použít generátor bodù v pravé èásti aplikace, pøièemž se body generují dle zadaných kritérií.
+ Do aplikace je tøeba zadat poèet bodù a následnì vybrat v rozbalovacím menu 
+ požadované rozmístìní - Random/Grid/Circle/Elipse/Square  (OBRÁZEK)
+ 
+V pøípadì, že je zadán nekorektní poèet bodù pro dané rozmístìní - napø. pro ètverec nebo grid, 
+je obrazen vytvoøen z nejbližšího menšího možného poètu prvkù. (OBRÁZEK)
+ 
+Pokud jsou body vygenerovány pomocí generátoru, je možné pøidat další klikáním na kanvas. 
+Pøi špuštìní generátoru jsou všechny dosud existující body vymazány.
+
+------------------------------------------------------------------------------------
+7) Výstupní data
+
+Výsledná data (konvexní obálka/minimální ohranièující obdélkník/hlavní smìr útvaru)
+ jsou vizualizovány v kanvasu aplikace.    (OBRÁZEK)
+ 
+-------------------------------------------------------------------------------
+8) Ukázka vytvoøené aplikace
+
+V Pravé horní èásti je možnost kliknutí na nápovìdu "Help", poté se otevøe okno s nápovìdou, 
+kde je popsán zpùsob zadávání vstupních dat a funkcionality aplikace. (OBRÁZEK)
+
+Nejprve je tøeba zadat vstupní data - množinu bodù. (Podrobnìji viz Vstupni data)
+
+
+Následnì je možné vybrat metodu výpoètu konvexní obálky a kliknutím na tlaèítko GO v 
+sekci Create convex hull zahájen výpoèet a vizualizace konvexní obálky zadané množiny bodù.
+Pod tlaèítkem Go je vypsán èas, jak dlouho trval výpoèet.
+
+
+Pokud chceme spoèítat minimální ohranièující obdélník, lze tak uèinit kliknutím
+ na tlaèítko  Go! v sekci  Create inimal bounding rectangle. Pokud je v této sekci
+ zaškrtnuta možnost draw dir. line, vykreslí se také hlavní smìr útvaru.
+ 
+ Vše je uvedeno do pùvodního stavu (smazány body i vypoètené vyýsledky) kliknutím na tlaèítko Clear.
+
+9) Dokumentace
+
+10) Závìr
+
+
+
+
+
+
+
+ 
