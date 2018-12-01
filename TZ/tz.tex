@@ -142,12 +142,6 @@ $$\varphi =\arccos(\frac{n_t  n}{|n_t| |n|})$$
 Expozice je orientace trojúhelníku vůči světovým stranám.\\
 $$A = \arctan2(\frac{n_x}{n_y});$$ kde $n_x, n_y$ jsou vektorové součiny $u$ a $v$.
 
-%OBRÁZEK
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=10cm]{KO.png}
-%	\caption{Konvexní obálka}
-%\end{figure}
 
 
 \clearpage
@@ -186,7 +180,29 @@ Dílčí algoritmus Add:
 	\item $DT\longleftarrow (a,b)$ Přidej do DT
 \end{enumerate}
 
+\subsubsection{Problematické situace}
+Pokud je vstupními daty grid, dochází k nejednoznačnosti Delaunay triangulace - na opsané kružnici leží čtyři body. V tom případě nefunguje výpočet vrstevnic ani následných analýz.
 
+%OBRÁZEK
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=10cm]{grid.jpg}
+%	\caption{Delaunay triangulace - grid}
+%\end{figure}
+
+%OBRÁZEK
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=10cm]{vrstevnice_grid.jpg}
+%	\caption{Vrstevnice - grid}
+%\end{figure}
+
+%OBRÁZEK
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=10cm]{sklon_grid.jpg}
+%	\caption{Sklon - grid}
+%\end{figure}
 \clearpage
 
 % ===============================================================
@@ -195,32 +211,73 @@ Dílčí algoritmus Add:
 
 Vstupními daty je množina bodů, kterou lze zadat dvěma způsoby:\\
 \begin{enumerate}
-\item klikáním na kanvas
-\item nahráním textového souboru se souřadnicemi bodů [X,Y,Z] *.txt
+\item klikáním na kanvas, výška se generuje náhodně
+\item nahráním textového souboru se souřadnicemi bodů [X,Y,Z] *.txt pomocí tlačítka \textit{Load points}
 \end{enumerate}
-
+%--------------------------------------------------------------------------------------------------------------------------------------
 Součástí příloh je textový soubor s testovacími daty \textit{testovaci data.txt}.
 
+\section{Výstupní data}
+Výsledky aplikace jsou vizualizovány v kanvasu grafického rozhraní.
 
-
-%--------------------------------------------------------------------------------------------------------------------------------------
+%OBRÁZEK
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=10cm]{sklon.jpg}
+%	\caption{Sklon}
+%\end{figure}
 
 \clearpage
+
 \section{Ukázka vytvořené aplikace}
 
 
+%OBRÁZEK
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=10cm]{aplikace.jpg}
+%	\caption{Aplikace}
+%\end{figure}
+
+Nejprve je třeba zadat vstupní data - viz kapitolu Vstupní data a následně je možné vypočítat Delaunay triangulaci, teprve poté jsou zpřístupněna i ostatní tlačítka aplikace. \\
+
+%OBRÁZEK
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=10cm]{DT.jpg}
+%	\caption{Delaunay triangulace}
+%\end{figure}
+
+Při výpočtu vrstevnic je třeba zadat krok vrstevnic a (ne)zaškrtnout zvýraznění hlavních vrstevnic.
+
+%OBRÁZEK
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=10cm]{vrstevnice.jpg}
+%	\caption{Vrstevnice}
+%\end{figure}
+
+V sekci analysis je možné vypočíst a vizualizovat sklon a expozici.
+%OBRÁZEK
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=10cm]{sklon.jpg}
+%	\caption{Sklon}
+%\end{figure}
+
+%OBRÁZEK
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=10cm]{expozice.jpg}
+%	\caption{Expozice}
+%\end{figure}
+
+Vše je uvedeno do původního stavu (smazány body i vypočtené výsledky) kliknutím na tlačítko Clear.\\
 \clearpage
 
 
-Nejprve je třeba zadat vstupní data - množinu bodů.\\
 
 
-Následně je možné vybrat metodu výpočtu konvexní obálky a kliknutím na tlačítko GO v 
-sekci Create convex hull zahájen výpočet a vizualizace konvexní obálky zadané množiny bodů.
-Pod tlačítkem Go je vypsán čas, jak dlouho trval výpočet.\\
-
-
-Vše je uvedeno do původního stavu (smazány body i vypočtené vyýsledky) kliknutím na tlačítko Clear.\\
 
 \clearpage
 
@@ -528,38 +585,19 @@ Třída sloužící pro vykreslení okna s nápovědou.
 \section{Závěr}
 
 \subsection{Politování se a vysvětlení našeho problému}
-Aplikace od začátku implementovala body, polygony, linie atd. v typu float (QPointF, QPolygonF, QLineF), v tomto duchu byly psány i všechny algoritmy. Při testování bylo zjištěno, že výpočet takto implementovaných algoritmů trvá VELMI dlouho (v řádu stovek sekund). Proto bylo navrženo (dva dny před odevzdáním), že by bylo vhodné vyzkoušet, jak budou algoritmy rychle počítat při implementaci bodů, polygonů a linií v typu int (QPoint, QPolygon, QLine). Bylo zjištěno, že tato změna (aplikovaná pomocí programu grep (to jsme se jen chtěli pochlubit, že jsme to zmákli přepsat rychle)) algoritmy rapidně urychlí (do řádu sekund až sub-sekund). Z tohoto důvodu (a také z časových důvodů, při testování pomalejší verze počítač zamrzá a člověk u toho musí pořád sedět a odklikávat "Wait", aby program nepadl) jsou uvedeny grafy z testování rychlejší verze. Kdyby všechny algoritmy po tomto přechodu fungovaly správně, ani bychom se neobtěžovali psát tak obsáhlý závěr, ale to by nebyla smůla, aby se to nerozbilo. Především myšlenka rotací tam a zpět u minimálního ohraničujícího obdélníku již nefunguje - orotované souřadnice se zaokrouhlí na celé číslo, při rotaci zpět se opět zaokrouhlí na celé číslo a problém je na světě. \\
-Dále je jakýmsi neidentifikovatelným způsobem rozbitý výpočet Jarvis Scan na kružnici (kód jsme změnili na kód stejný jako z hodiny, kód generování bodů na kružnici máme obdobný jako ostatní skupinky, ale i tak nefunguje úplně správně, neumíme určit problém (a moc nás to mrzí (skutečně, neironicky (to taky není ironie)))). Jelikož jsme strávili spoustu hodin nad co nejoptimálnější implementací těchto algoritmů a samozřejmě jsme to celou dobu testovali pro malé množiny bodů, kdy vše běží rychle, rozhodli jsme se odevzdat 2 verze kódu. Složky jsou pojmenované \texttt{src\_float} pro původní super vymazlenou verzi a \texttt{src\_int} pro testovací rozbitou verzi s tím, že si stojíme za super vymazlenou verzí \texttt{src\_float}, kde funguje vše, ale pro velké množství bodů v některých případech pomaleji (hlavně Jarvis Scan). Jako release odevzdáváme verzi \texttt{src\_float}. Doufáme, že to takto bude v pořádku.\\
- Ještě bychom se rádi pochlubili šikovnou implementací vymazávání duplicitních bodů při generování množin (nejprve jsme sortovali, a pak porovnávali následující body, uložili vždy poslední stejný, takto nemusíme použít vnořený cyklus a náročnost je lineární a ne kvadratická).
 
 \subsection{Návrhy na vylepšení}
-\begin{itemize}
-	\item Přizpůsobení vykreslených prvků při zvětšování/zmenšování okna
-	\item Úplné vynechání Jarvis Scanu
-	\item Lepší algoritmus na počítání minimálního ohraničujícího obdélníka, nejlépe takový, při kterém se nemusí rotovat celá množina bodů
-		\begin{itemize}
-			\item Krom šikovných algoritmů z prezentace by také šla využít analytická geometrie, tj. v podstatě stejný postup jaký jsme použili v našem programu, ale nerotovalo by se:
-				\begin{itemize}
-					\item V cyklu by se opět procházely všechny strany, ty by byly proloženy vždy přímkou p. 
-					\item Přímce p by se našel nejvzdálenější bod, vedla by se jím přímka q $||$ p a přímka k kolmá na p a q.
-					\item Přímce k by se našel nejvzdálenější bod vlevo, jím by se vedla přímka kl kolmá na p a q.
-					\item Přímce k by se našel nejvdálenější bod vpravo, jím by se vedla přímka kp kolmá na p a q.
-					\item Našly by se průsečíky přímek p a kl, p a kp, q a kl, q a kp jako souřadnice rohů ohraničujícího obdélníku.
-					\item Dále by byl postup totožný s postupem v našem programu (testování velikosti obsahu ohraničujícího obdélníku).
-				\end{itemize}
-		\end{itemize}
-	\item Optimalizace velikosti vykreslovaných značek bodů vzhledem k počtu vykreslených bodů (tak aby byla lépe vidět konvexní obálka).
-\end{itemize}
+
 
 \clearpage
 \section{Zdroje}
 
 \begin{enumerate}
-\item  BAYER, Tomáš. Konvexní obálky [online][cit. 21.10.2018]. \\
-Dostupné z: https://web.natur.cuni.cz/~bayertom/images/courses/Adk/adk4.pdf  \\
+\item  BAYER, Tomáš. 2D triangulace, DMT [online][cit. 1.12.2018]. \\
+Dostupné z: https://web.natur.cuni.cz/~bayertom/images/courses/Adk/adk5.pdf  \\
 
-\item  BAYER, Tomáš. Konvexní obálky [online][cit. 30.11.2018]. \\
-Dostupné z: https://web.natur.cuni.cz/~bayertom/images/courses/Adk/adkcv2.pdf\\
+\item  BAYER, Tomáš. 2D triangulace, DMT [online][cit. 30.11.2018]. \\
+Dostupné z: https://web.natur.cuni.cz/~bayertom/images/courses/Adk/adkcv3.pdf\\
 %=======================================================================================
 \end{enumerate}
 \end{document}
