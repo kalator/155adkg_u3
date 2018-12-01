@@ -1,6 +1,7 @@
 #include "draw.h"
 
 #include <QtGui>
+#include <ctime>
 
 Draw::Draw(QWidget *parent) : QWidget(parent)
 {

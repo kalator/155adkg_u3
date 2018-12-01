@@ -98,11 +98,23 @@ Anna Zemánková \\
 
 \section{Popis a rozbor problému}
 
+Mějme množinu $P {p_i}$ bodů $p_i = {x_i, y_i, z_i}$. Nad tuto množinou chceme vytvořit síť trojúhelníků $t_j$ pomocí Delaunay triangulace $DT$. 
+
+Vlastnosti Delaunay triangulace:
 
 \begin{itemize}
-\item Konvexní obálka: A,C,D,B,E,F,G
-\item Striktně konvexní obálka: A,B,E,F,G
+\item Uvnitř kružnice opsané trojúhelníku $t_j \in DT$ neleží žádný jiný bod množiny P.
+\item $DT$ maximalizuje minimální úhel v $\forall t_j$, avšak $DT$ neminimalizuje maximální úhěl v $t_j$
+
+\item $DT$ je lokálně optimální i globálně optimální vůči kritériu minimálního úhlu
+\item $DT$ je jednoznačná, pokud žádné čtyři body neleží na kružnici.
 \end{itemize}
+
+Z těchto vlastností také plyne, že trojúhelníky jsou tvořeny tak, aby kružnice jim opsaná byla minimální ze všech možných.
+
+
+
+
 %OBRÁZEK
 %\begin{figure}[h]
 %	\centering
@@ -122,7 +134,7 @@ Anna Zemánková \\
 \item $ p_1 = rand(P), ||p_2-p_1|| = min $ ....náhodný a nebližší bod
 \item Vytvoř hranu $ e = (p_1,p_2) $ 
 \item Inicializuj: $p_{min} = arg min_{\forall p_i\in\sigma_L(e)} r'(k_i), k_i = (a, b, p_i), e = (a,b)$
-\item Pokud $ \nexists p_{min}, prohoď orientaci e \longleftarrow (b,a) $. Jdi na $3)$
+\item Pokud $ \nexists p_{min},$ prohoď orientaci $e \longleftarrow (b,a) $. Jdi na $3)$
 \item $e_2 = (p_1,p_{min}), e_3 = (p_{min},p_1) $...zbývající hrany trojúhelníku
 \item $AEL \longleftarrow e, AEL \longleftarrow e_2, AEL \longleftarrow e_3 $
 \item $DT \longleftarrow e, DT \longleftarrow e_2, DT \longleftarrow e_3 $ 
@@ -150,6 +162,11 @@ Dílčí algoritmus Add:
 \clearpage
 
 \subsection{Vrstevnice}
+
+\begin{enumerate}
+	\item doplnit
+\end{enumerate}
+
 
 \subsubsection{Implementace metody}
 \begin{enumerate}
