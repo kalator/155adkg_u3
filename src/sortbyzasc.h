@@ -16,7 +16,7 @@ public:
         else if(p1.y() < p2.y()) return true;
         else if(p1.y() > p2.y()) return false;
         else if(p1.x() < p2.x()) return true;
-        else if(p1.x() > p2.x()) return false;
+        else return false;
         //return (p1.getZ()<p2.getZ())||((p1.getZ()==p2.getZ())&&(p1.y()<p2.y()))&&(p1.x()<p2.x()));
     }
 };
