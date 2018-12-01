@@ -4,7 +4,6 @@
 #include<QtGui>
 #include "qpoint3d.h"
 
-
 class SortByXAsc
 {
 public:

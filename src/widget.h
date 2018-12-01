@@ -29,6 +29,8 @@ private slots:
 
     void on_aspect_button_clicked();
 
+    void on_hyps_button_clicked();
+
 private:
     Ui::Widget *ui;
     double z_min, z_max;

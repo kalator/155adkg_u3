@@ -3,6 +3,8 @@
 #include <list>
 
 #include "sortbyxasc.h"
+#include "sortbyzasc.h"
+
 
 
 Algorithms::Algorithms() {}
@@ -267,7 +269,7 @@ QPoint3D Algorithms::getContourPoint(QPoint3D &p1, QPoint3D &p2, double z)
     return p;
 }
 
-std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min, double z_max, double dz, std::vector<double> &contour_heights)
+std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min, double z_max, double dz, std::vector<double> &contour_heights, std::vector<QPolygonFZ> &hyps)
 {
     //Create contour lines
     std::vector<Edge> contours;
@@ -285,9 +287,17 @@ std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min
         double z2 = p2.getZ();
         double z3 = p3.getZ();
 
+        //Vector of points for hypsometry
+        std::vector<QPoint3D> pts;
+
         //Find all contour lines
         for(double z = z_min; z <= z_max; z+=dz)
         {
+
+            pts.push_back(p1);
+            pts.push_back(p2);
+            pts.push_back(p3);
+
            // High differences
            double dz1 = z - z1;
            double dz2 = z - z2;
@@ -299,14 +309,19 @@ std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min
            double dz31 = dz3*dz1;
 
            //Triangle is coplanar
-           if((dz1 ==0)&&(dz2 == 0)&&(dz3 == 0))
+           if((dz1 == 0)&&(dz2 == 0)&&(dz3 == 0))
+           {
                continue;
+           }
 
            //Edge e12 is colinear
            else if(dz1 == 0 && dz2 == 0)
            {
                 contours.push_back(dt[i]);
                 contour_heights.push_back(z);
+
+                pts.push_back(dt[i].getS());
+                pts.push_back(dt[i].getE());
            }
 
            //Edge e23 is colinear
@@ -314,6 +329,9 @@ std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min
            {
                contours.push_back(dt[i+1]);
                contour_heights.push_back(z);
+
+               pts.push_back(dt[i+1].getS());
+               pts.push_back(dt[i+1].getE());
            }
 
            //Edge e31 is colinear
@@ -321,6 +339,9 @@ std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min
            {
                 contours.push_back(dt[i+2]);
                 contour_heights.push_back(z);
+
+                pts.push_back(dt[i+2].getS());
+                pts.push_back(dt[i+2].getE());
            }
 
            //Plane intersects edges 1 and 2
@@ -333,6 +354,9 @@ std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min
                Edge c(a,b);
                contours.push_back(c);
                contour_heights.push_back(z);
+
+               pts.push_back(a);
+               pts.push_back(b);
            }
 
            //Plane intersects edges 2 and 3
@@ -345,6 +369,9 @@ std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min
                Edge c(a,b);
                contours.push_back(c);
                contour_heights.push_back(z);
+
+               pts.push_back(a);
+               pts.push_back(b);
            }
 
            //Plane intersects edges 3 and 1
@@ -357,8 +384,14 @@ std::vector<Edge> Algorithms::createContours(std::vector<Edge> &dt, double z_min
                Edge c(a,b);
                contours.push_back(c);
                contour_heights.push_back(z);
+
+               pts.push_back(a);
+               pts.push_back(b);
            }
+
         }
+        //process hyps points
+        processPts(pts, dz, hyps);
     }
     return contours;
 }
@@ -427,4 +460,149 @@ std::vector<Triangle> Algorithms::analyzeDTM(std::vector<Edge> &dt)
     }
 
     return dtm;
+}
+
+void Algorithms::processPts(std::vector<QPoint3D> &pts, double dz, std::vector<QPolygonFZ> &pols)
+{
+    //sort by z
+    std::sort(pts.begin(), pts.end(), SortByZAsc());
+
+    int dz_int = dz;
+
+    int h_min = pts[0].getZ();
+    int h_max = pts[pts.size()-1].getZ();
+
+    int h_min_int = h_min - h_min%dz_int;
+    int h_max_int = h_max - h_max%dz_int;
+
+    if(h_max%dz_int > 0)
+    {
+        h_max_int += dz;
+    }
+
+    int range = h_max_int-h_min_int;
+
+    //declare vector of
+    if(range < dz_int) range += dz_int;
+    std::vector<std::vector<QPoint3D>> multi_pts(range/dz_int);
+
+
+    //add to groups
+    for(unsigned int i = 0; i < pts.size(); i++)
+    {
+        if(i > 0 && (fabs(pts[i].x() - pts[i-1].x()) < 1e-8) && (fabs(pts[i].y() - pts[i-1].y()) < 1e-8))
+            continue;
+        int h = pts[i].getZ();
+        int index = (h-h_min_int)/dz_int;
+
+        if(index == 0)
+        {
+            multi_pts[index].push_back(pts[i]);
+            continue;
+        }
+
+        if((h-h_min_int)%dz_int > 0)
+        {
+            multi_pts[index].push_back(pts[i]);
+            continue;
+        }
+
+        if(index == multi_pts.size())
+        {
+            multi_pts[index-1].push_back(pts[i]);
+            continue;
+        }
+
+        if(index > 0)
+        {
+            multi_pts[index].push_back(pts[i]);
+            multi_pts[index-1].push_back(pts[i]);
+        }
+    }
+
+    //vector of polygons
+    for(unsigned int i = 0; i < multi_pts.size(); i++)
+    {
+        if(multi_pts[i].size() == 0) continue;
+        QPolygonF ch = sweepLineCH(multi_pts[i]);
+        double avg_h = avgH(multi_pts[i]);
+        pols.push_back(QPolygonFZ(ch, avg_h));
+    }
+}
+
+QPolygonF Algorithms::sweepLineCH(std::vector<QPoint3D> &points){
+
+    //create convex hull using the Sweep line procedure
+    QPolygonF poly_ch;
+
+    //sort by x coord asc
+    std::sort(points.begin(), points.end(), SortByXAsc());
+
+    //create list of predecessors (p) and successors (n)
+    std::vector<int> p(points.size()), n(points.size());
+
+    //create initial bi-angle from first 2 points
+    n[0] = 1;
+    n[1] = 0;
+
+    p[0] = 1;
+    p[1] = 0;
+
+    for(unsigned int i = 2; i < points.size(); i++)
+    {
+        //does new point lie on upper/lower halfplane?
+        //link i with predecessor/succesor
+
+        if(getPointLinePosition(points[i], points[p[i-1]], points[i-1]) == LEFT)
+        {
+            p[i] = i-1;
+            n[i] = n[i-1];
+        }
+        else
+        {
+            p[i] = p[i-1];
+            n[i] = i-1;
+        }
+
+        //link predecessor/successor with i
+        n[p[i]] = i;
+        p[n[i]] = i;
+
+        //fix upper tangent
+        while(getPointLinePosition(points[n[n[i]]], points[i], points[n[i]]) == RIGHT)
+        {
+            p[n[n[i]]] = i;
+            n[i] = n[n[i]];
+
+        }
+
+        //fix lower tangent
+        while(getPointLinePosition(points[p[p[i]]], points[i], points[p[i]]) == LEFT)
+        {
+            n[p[p[i]]] = i;
+            p[i] = p[p[i]];
+        }
+    }
+
+    //add points to poly_ch
+    poly_ch.push_back(QPointF(points[0].x(), points[0].y()));
+    int index = n[0];
+
+    while(index != 0)
+    {
+        poly_ch.push_back(QPointF(points[index].x(), points[index].y()));
+        index = n[index];
+    }
+    return poly_ch;
+}
+
+double Algorithms::avgH(std::vector<QPoint3D> &pts)
+{
+    double avg = 0;
+    for(int i = 0; i < pts.size(); i++)
+    {
+        avg += pts[i].getZ();
+    }
+
+    return avg/pts.size();
 }

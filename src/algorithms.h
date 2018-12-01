@@ -5,6 +5,7 @@
 #include <vector>
 #include "edge.h"
 #include "qpoint3d.h"
+#include "qpolygonfz.h"
 #include "triangle.h"
 
 //Point and line position
@@ -28,10 +29,15 @@ public:
     static std::vector<Edge> createContours(std::vector<Edge> &dt,
                                             double z_min, double z_max,
                                             double dz,
-                                            std::vector<double> &contour_heights);
+                                            std::vector<double> &contour_heights,
+                                            std::vector<QPolygonFZ> &hyps);
     static double getSlope(QPoint3D &p1, QPoint3D &p2, QPoint3D &p3);
     static double getAspect(QPoint3D &p1, QPoint3D &p2, QPoint3D &p3);
     static std::vector<Triangle> analyzeDTM(std::vector<Edge> &dt);
+    static void processPts(std::vector<QPoint3D> &pts, double dz, std::vector<QPolygonFZ> &pols);
+    static QPolygonF sweepLineCH(std::vector<QPoint3D> &points);
+    static double avgH(std::vector<QPoint3D> &pts);
+
 };
 
 #endif // ALGORITHMS_H

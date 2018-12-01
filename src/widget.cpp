@@ -11,6 +11,7 @@
 //#include "edge.h"
 #include "algorithms.h"
 #include "triangle.h"
+#include "sortpolbyzasc.h"
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -61,11 +62,13 @@ void Widget::on_clear_button_clicked()
     ui->cont_button->setEnabled(false);
     ui->slope_button->setEnabled(false);
     ui->aspect_button->setEnabled(false);
+    ui->hyps_button->setEnabled(false);
     ui->pic->clear();
 }
 
 void Widget::on_cont_button_clicked()
 {
+    if(ui->step->text().toDouble() < 1) return;
     //Create contour lines
     std::vector<Edge> dt = ui->Canvas->getDT();
     std::vector<double> contour_heights;
@@ -76,15 +79,23 @@ void Widget::on_cont_button_clicked()
     z_from = z_from - z_from%step;
     z_to = z_to-z_to%step + step;
 
-    std::vector<Edge> contours = Algorithms::createContours(dt, z_from, z_to, step, contour_heights);
+    //hypsometry
+    std::vector<QPolygonFZ> hyps;
+
+    std::vector<Edge> contours = Algorithms::createContours(dt, z_from, z_to, step, contour_heights, hyps);
+
+    //sort hyps polygons by z
+    std::sort(hyps.begin(), hyps.end(), SortPolByZAsc());
 
     bool draw_main = false;
     if(ui->main_contours->isChecked())
     {
         draw_main = true;
     }
-    ui->Canvas->setContours(contours, contour_heights, step, draw_main);
+    ui->Canvas->setContours(contours, contour_heights, step, draw_main, hyps);
     repaint();
+
+    ui->hyps_button->setEnabled(true);
 }
 
 void Widget::on_slope_button_clicked()
@@ -136,8 +147,14 @@ void Widget::on_aspect_button_clicked()
     current_path.cdUp();
     QString path = current_path.path();
 
-    QPixmap pix(path + "/asp_colors.gif");
+    QPixmap pix(path + "/misc/asp_colors.gif");
     ui->pic->setPixmap(pix.scaled(100,100,Qt::KeepAspectRatio));
 
+    repaint();
+}
+
+void Widget::on_hyps_button_clicked()
+{
+    ui->Canvas->drawHypsometry();
     repaint();
 }

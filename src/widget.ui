@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="cursor">
-      <cursorShape>ForbiddenCursor</cursorShape>
+      <cursorShape>ArrowCursor</cursorShape>
      </property>
     </widget>
    </item>
@@ -241,6 +241,19 @@
        </property>
        <property name="text">
         <string>Aspect</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="hyps_button">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string>Hypsometry</string>
        </property>
       </widget>
      </item>

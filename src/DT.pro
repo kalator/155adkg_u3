@@ -32,7 +32,10 @@ SOURCES += \
     edge.cpp \
     sortbyxasc.cpp \
     qpoint3d.cpp \
-    triangle.cpp
+    triangle.cpp \
+    sortbyzasc.cpp \
+    qpolygonfz.cpp \
+    sortpolbyzasc.cpp
 
 HEADERS += \
         widget.h \
@@ -41,7 +44,10 @@ HEADERS += \
     edge.h \
     sortbyxasc.h \
     qpoint3d.h \
-    triangle.h
+    triangle.h \
+    sortbyzasc.h \
+    qpolygonfz.h \
+    sortpolbyzasc.h
 
 FORMS += \
         widget.ui

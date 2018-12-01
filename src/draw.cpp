@@ -1,14 +1,58 @@
 #include "draw.h"
+#include "sortpolbyzasc.h"
 
 #include <QtGui>
 #include <ctime>
+#include <QDebug>
 
 Draw::Draw(QWidget *parent) : QWidget(parent)
 {
     srand((unsigned)time(0));
     this->draw_aspect = false;
     this->draw_slope = false;
+    this->draw_hyps = false;
+
+    //create list of colors from file
+    //get path to directory upper of build
+    QDir current_path = QDir::currentPath();
+    current_path.cdUp();
+    QString path = current_path.path();
+    std::string path_utf8 = path.toUtf8().constData();
+
+    std::ifstream col_file;
+    col_file.open(path_utf8+"/misc/hyps.txt");
+
+    //check if points_file is correctly open (or if it exists)
+    if(!col_file.is_open())
+    {
+        return;
+    }
+
+    for(int i = 0; i < 256; i++)
+    {
+        double uid;
+        int r,g,b;
+        col_file >> uid;
+        col_file >> r;
+        col_file >> g;
+        col_file >> b;
+        this->ctable.push_back(QColor(r,g,b));
+    }
 }
+
+void Draw::setContours(std::vector<Edge> &contours_,
+                       std::vector<double> &contour_heights_,
+                       int step_,
+                       bool draw_main_,
+                       std::vector<QPolygonFZ> &hyps_)
+{
+    contours = contours_;
+    contour_heights = contour_heights_;
+    step = step_;
+    draw_main = draw_main_;
+    hyps = hyps_;
+}
+
 
 void Draw::paintEvent(QPaintEvent *e)
 {
@@ -21,14 +65,14 @@ void Draw::paintEvent(QPaintEvent *e)
 
    //Draw Delaunay edges
    painter.setPen(pen_dt);
-   for(int i = 0; i < dt.size(); i++)
+   for(unsigned int i = 0; i < dt.size(); i++)
    {
        painter.drawLine(dt[i].getS(), dt[i].getE());
    }
 
    //Draw points
    painter.setPen(pen_points);
-   for(int i = 0; i < points.size(); i++)
+   for(unsigned int i = 0; i < points.size(); i++)
    {
        painter.drawPoint(points[i].x(), points[i].y());
       // painter.drawText(points[i].x() + 10, points[i].y() + 10, QString::number(points[i].getZ()));
@@ -37,7 +81,7 @@ void Draw::paintEvent(QPaintEvent *e)
    //Draw contour lines
    if(draw_main)
    {
-       for(int i = 0; i < contours.size(); i++)
+       for(unsigned int i = 0; i < contours.size(); i++)
        {
            int h = contour_heights[i];
            if(!(h%(5*step)))
@@ -60,7 +104,7 @@ void Draw::paintEvent(QPaintEvent *e)
    else
    {
        painter.setPen(cont_norm);
-       for(int i = 0; i < contours.size(); i++)
+       for(unsigned int i = 0; i < contours.size(); i++)
        {
            painter.drawLine(contours[i].getS(), contours[i].getE());
        }
@@ -71,7 +115,7 @@ void Draw::paintEvent(QPaintEvent *e)
    if(this->draw_slope)
    {
        double c = 255.0/180;
-       for(int i = 0; i < dtm.size(); i++)
+       for(unsigned int i = 0; i < dtm.size(); i++)
        {
            //Get triangle and its vertices
            Triangle t = dtm[i];
@@ -100,7 +144,7 @@ void Draw::paintEvent(QPaintEvent *e)
        std::vector<QColor> colors = genAspColors();
 
        double c = 255.0/360;
-       for(int i = 0; i < dtm.size(); i++)
+       for(unsigned int i = 0; i < dtm.size(); i++)
        {
            //Get triangle and its vertices
            Triangle t = dtm[i];
@@ -123,6 +167,23 @@ void Draw::paintEvent(QPaintEvent *e)
        }
    }
 
+   //Draw hypsometry
+   if(this->draw_hyps)
+   {
+       painter.setPen(pen_slope);
+
+       double h_range = hyps[hyps.size()-1].getZ() - hyps[0].getZ();
+
+       double coef = 255.0/h_range;
+
+       for(unsigned int i = 0; i < hyps.size(); i++)
+       {
+           int brush_index = (hyps[i].getZ() - hyps[0].getZ())*coef;
+           painter.setBrush(ctable[brush_index]);
+           painter.drawPolygon(hyps[i]);
+       }
+   }
+
    painter.end();
 }
 
@@ -141,10 +202,12 @@ void Draw::clearDT()
     //Clear all
     this->draw_aspect = false;
     this->draw_slope = false;
+    this->draw_hyps = false;
     points.clear();
     dt.clear();
     dtm.clear();
     contours.clear();
+    hyps.clear();
 }
 
 void Draw::loadPoints(std::string path, QSizeF &canvas_size, double &min_z, double &max_z)
@@ -184,13 +247,13 @@ void Draw::loadPoints(std::string path, QSizeF &canvas_size, double &min_z, doub
     }
 
     //scale points to canvas size
-    double h = canvas_size.height();
-    double w = canvas_size.width();
+    double h = canvas_size.height() - 40;
+    double w = canvas_size.width() - 40;
 
     double x_coef = w/(max_x-min_x);
     double y_coef = h/(max_y-min_y);
 
-    for(int i = 0; i < points.size(); i++)
+    for(unsigned int i = 0; i < points.size(); i++)
     {
         points[i].setX((points[i].x()-min_x)*x_coef);
         points[i].setY((points[i].y()-min_y)*y_coef);
@@ -220,3 +283,9 @@ std::vector<QColor> Draw::genAspColors()
 
 }
 
+void Draw::drawHypsometry()
+{
+    this->draw_hyps = !this->draw_hyps;
+    this->draw_aspect = false;
+    this->draw_slope = false;
+}
