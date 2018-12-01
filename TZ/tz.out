@@ -1,13 +1,13 @@
 \BOOKMARK [1][-]{section.1}{Zad\341n\355}{}% 1
 \BOOKMARK [1][-]{section.2}{\332daje o bonusov\375ch \372loh\341ch}{}% 2
 \BOOKMARK [1][-]{section.3}{Popis a rozbor probl\351mu}{}% 3
-\BOOKMARK [1][-]{section.4}{Popis algoritmu}{}% 4
-\BOOKMARK [2][-]{subsection.4.1}{Delaunayova triangulace}{section.4}% 5
-\BOOKMARK [3][-]{subsubsection.4.1.1}{Implementace metody}{subsection.4.1}% 6
-\BOOKMARK [2][-]{subsection.4.2}{Vrstevnice}{section.4}% 7
-\BOOKMARK [3][-]{subsubsection.4.2.1}{Implementace metody}{subsection.4.2}% 8
-\BOOKMARK [2][-]{subsection.4.3}{Sklon}{section.4}% 9
-\BOOKMARK [2][-]{subsection.4.4}{Expozice}{section.4}% 10
+\BOOKMARK [2][-]{subsection.3.1}{Delaunay triangulace}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Vrstevnice}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.3}{Sklon}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.4}{Expozice}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{Popis algoritmu}{}% 8
+\BOOKMARK [2][-]{subsection.4.1}{Delaunayova triangulace}{section.4}% 9
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Implementace metody}{subsection.4.1}% 10
 \BOOKMARK [1][-]{section.5}{Vstupn\355 data}{}% 11
 \BOOKMARK [1][-]{section.6}{Uk\341zka vytvoren\351 aplikace}{}% 12
 \BOOKMARK [2][-]{subsection.6.1}{Algorithms}{section.6}% 13

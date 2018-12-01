@@ -98,22 +98,49 @@ Anna Zemánková \\
 
 \section{Popis a rozbor problému}
 
-Mějme množinu $P {p_i}$ bodů $p_i = {x_i, y_i, z_i}$. Nad tuto množinou chceme vytvořit síť trojúhelníků $t_j$ pomocí Delaunay triangulace $DT$. 
+Mějme množinu bodů $P \{p_i\}$,  $p_i = \{x_i, y_i, z_i\}$. Nad touto množinou chceme vytvořit síť trojúhelníků $t_j$ pomocí Delaunay triangulace $DT$, následně vytvořit vrstevnice a pro vizualizaci DMT určit sklon a expozici jednotlivých trojúhelníků.\\ 
 
-Vlastnosti Delaunay triangulace:
-
+\subsection{Delaunay triangulace}
+Vlastnosti:
 \begin{itemize}
 \item Uvnitř kružnice opsané trojúhelníku $t_j \in DT$ neleží žádný jiný bod množiny P.
-\item $DT$ maximalizuje minimální úhel v $\forall t_j$, avšak $DT$ neminimalizuje maximální úhěl v $t_j$
-
-\item $DT$ je lokálně optimální i globálně optimální vůči kritériu minimálního úhlu
+\item $DT$ maximalizuje minimální úhel v $\forall t_j$, avšak $DT$ neminimalizuje maximální úhel v $t_j$.
+\item $DT$ je lokálně optimální i globálně optimální vůči kritériu minimálního úhlu.
 \item $DT$ je jednoznačná, pokud žádné čtyři body neleží na kružnici.
 \end{itemize}
+\vspace{1.5cm}
 
-Z těchto vlastností také plyne, že trojúhelníky jsou tvořeny tak, aby kružnice jim opsaná byla minimální ze všech možných.
+\subsection{Vrstevnice}
+Vrstevnice byly určeny za využití lineární interpolace, při které se předpokládá, že spád terénu je mezi podrobnými body $p_i$, mezi nimiž se provádí interpolace, konstantní.\\
+
+Mějme trojúhelník $t_j$, tvořený hranami $e_1, e_2, e_3$ a rovinu vrstevnice $\rho$ o dané výšce.
+
+Vztah hrany tojúhelníku a roviny vrstevnice:
+\begin{enumerate}
+\item $(z-z_i)*(z-z_{i+1}) < 0$  $\longrightarrow e_i \cap \rho$
+\item $(z-z_i)*(z-z_{i+1}) > 0$  $\longrightarrow e_i \notin \rho$ 
+\item $(z-z_i)*(z-z_{i+1}) = 0$  $\longrightarrow e_i \in \rho$
+\end{enumerate}
+
+\noindent Pokud  $e_1, e_2, e_3 \in \rho$, jedná se o trojúhelník náležící rovině $\rho$ a není nutné vrstevnici pro tento trojúhelník řešit.\\
+Jestliže $e_i \cap \rho$, je vypočten průsečík hrany $e_i = (p_1, p_2)$ a roviny vrstevnice $\rho$ o výšce $z$:
+$$ x = \frac{(x_2-x_1)}{(z_2-z_1)}(z-z_1)+x_1, $$
+$$ y = \frac{(y_2-y_1)}{(z_2-z_1)}(z-z_1)+y_1.$$
+\clearpage
+
+\subsection{Sklon}
+
+Sklon je úhel $\varphi$ mezi svislicí $n$ a normálou trojúhelníku $n_t$. Rovina trojúhelníku $t_j$ je určena vektory u,v.\\
+
+\noindent$$n = (0,0,1)$$
+$$n_t = \vec{u}\times \vec{v}$$
+$$\varphi =\arccos(\frac{n_t  n}{|n_t| |n|})$$
 
 
 
+\subsection{Expozice}
+Expozice je orientace trojúhelníku vůči světovým stranám.\\
+$$A = \arctan2(\frac{n_x}{n_y});$$ kde $n_x, n_y$ jsou vektorové součiny $u$ a $v$.
 
 %OBRÁZEK
 %\begin{figure}[h]
@@ -127,8 +154,9 @@ Z těchto vlastností také plyne, že trojúhelníky jsou tvořeny tak, aby kru
 \section{Popis algoritmů}
 
 \subsection{Delaunayova triangulace}
+Triangulace byla realizována metodou inkrementální konstrukce, body jsou tedy do triangulace přidávány postupně a to tak, aby vybraný bod ležel v levé polorovině od orientované hrany, poloměr opsané kružnice byl minimální a zároveň jsou preferovány body, jejichž střed opsané kružnice leží v pravé polorovině. Pokud žádný bod těmto kritériím nevyhovuje, je orientace hrany obrácena a bod je vybírán znovu. Jakmile je bod nalezen, jsou k němu vytvořeny orientované hrany a vše je uloženo do triangulace.\\
+Pro "manipulaci" s hranami se používá struktura Active Edges List $AEL$, do ní jsou ukládány hrany, ke kterým je třeba nalézt třetí bod a vytvořit trojúhelník. Jakmile je $AEL$ prázdná, algoritmus končí.
 
-\vspace{1.5cm}
 \subsubsection{Implementace metody}
 \begin{enumerate}
 \item $ p_1 = rand(P), ||p_2-p_1|| = min $ ....náhodný a nebližší bod
@@ -147,7 +175,7 @@ Z těchto vlastností také plyne, že trojúhelníky jsou tvořeny tak, aby kru
 \item \hspace {2cm} $DT \longleftarrow e  $  
 \item \hspace {2cm} $ add(e_2,AEL,DT), add(e_3,AEL,DT)$
 \end{enumerate}
-
+\clearpage
 Dílčí algoritmus Add:
 \begin{enumerate}
 	\item Vytvoř hranu $e' = (b,a)$
@@ -161,30 +189,19 @@ Dílčí algoritmus Add:
 
 \clearpage
 
-\subsection{Vrstevnice}
-
-\begin{enumerate}
-	\item doplnit
-\end{enumerate}
-
-
-\subsubsection{Implementace metody}
-\begin{enumerate}
-	\item doplnit
-\end{enumerate}
-
-\subsection{Sklon}
-
-\subsection{Expozice}
-
-
 % ===============================================================
 
 \section{Vstupní data}
 
 Vstupními daty je množina bodů, kterou lze zadat dvěma způsoby:\\
-1) klikáním na kanvas\\
-2) použitím generátoru bodů, který je součástí aplikace, přičemž se body generují dle zadaných kritérií.\\
+\begin{enumerate}
+\item klikáním na kanvas
+\item nahráním textového souboru se souřadnicemi bodů [X,Y,Z] *.txt
+\end{enumerate}
+
+Součástí příloh je textový soubor s testovacími daty \textit{testovaci data.txt}.
+
+
 
 %--------------------------------------------------------------------------------------------------------------------------------------
 
