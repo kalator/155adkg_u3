@@ -25,7 +25,7 @@ Widget::~Widget()
     delete ui;
 }
 
-void Widget::on_del_button_clicked()
+void Widget::on_trg_button_clicked()
 {
     std::vector<QPoint3D> points = ui->Canvas->getPoints();
     if(points.size() < 3) return;
@@ -58,7 +58,7 @@ void Widget::on_clear_button_clicked()
     ui->Canvas->clearDT();
     repaint();
 
-    ui->del_button->setEnabled(false);
+    ui->trg_button->setEnabled(false);
     ui->cont_button->setEnabled(false);
     ui->slope_button->setEnabled(false);
     ui->aspect_button->setEnabled(false);
@@ -128,7 +128,7 @@ void Widget::on_load_points_button_clicked()
 
     //enable triangulation button
     if(!(ui->Canvas->getPoints().empty()))
-        ui->del_button->setEnabled(true);
+        ui->trg_button->setEnabled(true);
 
     //disable analysis buttons
     ui->cont_button->setEnabled(false);

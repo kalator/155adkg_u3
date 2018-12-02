@@ -92,7 +92,6 @@ Anna Zemánková \\
 \section{Údaje o bonusových úlohách}
 Z bonusových úloh byly zpracovány:
 \begin{itemize}
-	\item výběr barevné stupnice při vizualizaci expozice (sklon byl vizualizován již na hodině)
 	\item automatický popis vrstevnic
 	\item barevná hypsometrie
 \end{itemize}
@@ -139,8 +138,9 @@ Sklon je úhel $\varphi$ mezi svislicí $n$ a normálou trojúhelníku $n_t$. Ro
 
 \noindent$$n = (0,0,1)$$
 $$n_t = \vec{u}\times \vec{v}$$
-$$\varphi =\arccos(\frac{n_t  n}{|n_t| |n|})$$
-
+$$\varphi =\arccos(\frac{n_t \cdot n}{|n_t| |n|})$$
+\\
+Sklon je vizualizován odstíny šedi.
 
 
 \subsection{Expozice}
@@ -214,6 +214,29 @@ Pokud je vstupními daty grid, dochází k nejednoznačnosti Delaunay triangulac
 %	\includegraphics[width=10cm]{sklon_grid.jpg}
 %	\caption{Sklon - grid}
 %\end{figure}
+
+\subsection{Barevná hypsometrie}
+Myšlenka výpočtu barevné hypsometrie vychází z procházení všech trojúhelníků triangulace i s jejich vrstevnicemi. Výpočet pak vždy probíhá nad jedním trojúhelníkem. Vzhledem k tomu, že jediný moment při implementaci programu, kdy jsou trojúhelníky a jejich vrstevnice pohromadě, byl při výpočtu vrstevnic, probíhal výpočet hypsometrie zároveň s vrstevnicemi. Samostatný algoritmus vypadá následovně:
+
+\begin{enumerate}
+	\item Vytvoř vektor polygonů \textbf{pols} s údajem o jejich střední výšce
+	\item Procházej po jednom všechny trojúhelníky:
+		\begin{enumerate}
+			\item Do vektoru bodů \textbf{pts} ulož vrcholy trojúhelníku a krajní body vrstevnic
+			\item Vytvoř vektoru vektorů bodů \textbf{vec_pts} o velikosti počtu intervalů vrstevnic v rámci trojúhelníku (počítají se i krajní intervaly, ve kterých může ležet vrchol trojúhelníku)
+			\item Procházej vektor bodů \textbf{pts} a ulož body podle výšky do příslušného vektoru bodů z \textbf{vec_pts}.
+			\item Vypočítej konvexní obálku každého vektoru bodů z \textbf{vec_pts}, vypočti jejich průměrnou výšku a ulož do \textbf{pols}. 
+		\end{enumerate}
+	\item Seřaď \textbf{pols} bodle středních výšek.
+	\item Naškáluj tabulku barev podle počtu polygonů v \textbf{pols}.
+	\item Vykresly polygony.
+\end{enumerate}
+
+Pozn.: Pro vytvoření polygonů bylo třeba každou množinu bodů seřadit tak, aby byly ve správném pořadí. K tomu byl využit algoritmus Sweep Line z minulé úlohy (možná dělo na vrabce, ale funkční a již ověřené).
+
+\subsection{Automatický popis vrstevnic}
+Při vytváření vrstevnic je zároveň ukládána jejich výška. Vektor výšek je pak procházen společně s vektorem vrstevnic a ke každé hlavní je přidán popisek.
+
 \clearpage
 
 % ===============================================================
@@ -255,7 +278,7 @@ Nejprve je třeba nahrát vstupní data pomocí tlačítka \textit{Load points} 
 %	\caption{Delaunay triangulace}
 %\end{figure}
 
-Při výpočtu vrstevnic je třeba zadat krok vrstevnic a (ne)zaškrtnout zvýraznění hlavních vrstevnic.
+Při výpočtu vrstevnic je třeba zadat krok vrstevnic a (ne)zaškrtnout zvýraznění hlavních vrstevnic. Po výpočtu vrstevnic je zpřístupněno tlačítko pro barevnou hypsometrii.
 
 %OBRÁZEK
 %\begin{figure}[h]
@@ -264,7 +287,7 @@ Při výpočtu vrstevnic je třeba zadat krok vrstevnic a (ne)zaškrtnout zvýra
 %	\caption{Vrstevnice}
 %\end{figure}
 
-V sekci analysis je možné vypočíst a vizualizovat sklon a expozici.
+V sekci analysis je možné vypočíst a vizualizovat sklon a expozici či barevnou hypsometrii. Po opětovném stisknutí příslušného tlačítka se daná vizualizace opět skryje.
 %OBRÁZEK
 %\begin{figure}[h]
 %	\centering
@@ -279,6 +302,13 @@ V sekci analysis je možné vypočíst a vizualizovat sklon a expozici.
 %	\caption{Expozice}
 %\end{figure}
 
+%OBRÁZEK
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[width=10cm]{hypsometrie.jpg}
+%	\caption{Barevná hypsometrie}
+%\end{figure}
+
 Vše je uvedeno do původního stavu (smazány body i vypočtené výsledky) kliknutím na tlačítko Clear.\\
 \clearpage
 
@@ -291,6 +321,62 @@ Vše je uvedeno do původního stavu (smazány body i vypočtené výsledky) kli
 %=======================================================================================
 
 \section {Dokumentace}
+
+%
+\subsection{QPoint3D}
+Definice nového datového typu \textbf{QPoint3D}, který dědí od třídy \textbf{QPointF}. Rozšíření o výškovou souřadnici \textbf{z}. V defaultním konstruktoru jsou nasteveny implicitní hodnoty souřadnic: $[0,0,0]$.
+\begin{itemize}
+	\item členská proměnná \textbf{double z} - výška bodu
+	\item public metody:
+	\begin{itemize}
+		\item \textbf{getZ} - získání souřadnice z. Návratovým typem je \textbf{double}. 
+		\item \textbf{setZ} - uložení hodnoty do členské proměnné z. Návratovým typem je \textbf{void}. 
+	\end{itemize}
+\end{itemize}
+%======================================================
+\subsection{QPolygonFZ}
+Definice nového datového typu \textbf{QPolygonFZ}, který dědí od třídy \textbf{QPolygonF}. Rozšíření o průměrnou výšku polygonu.
+\begin{itemize}
+	\item členská proměnná \textbf{double z_mid} - průměrná výška polygonu
+	\item public metody:
+	\begin{itemize}
+		\item \textbf{getZ} - získání průměrné výšky polygonu. Návratovým typem je \textbf{double}.
+		\item \textbf{setZ} - uložení průměrné výšky. Návratovým typem je \textbf{void}.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Edge}
+Definice nového datového typu \textbf{Edge}. Uspořádaná dvojice vrcholů simulující orientovanou hranu (startovní a koncový vrchol).
+
+\begin{itemize}
+	\item členské proměnné \textbf{QPoint3D s, e} - počáteční a koncový bod hrany
+	\item public metody:
+	\begin{itemize}
+		\item \textbf{getS resp. getE} - získání počátečního resp. koncového bodu hrany. Návratovým typem je \textbf{QPoint3D}. 
+		\item \textbf{switchOr} - metoda slouží ke změně orientace hrany - prohodí počáteční a koncový bod. Návratovým typem je \textbf{void}. 
+	\end{itemize}
+	\item Přetížení operátoru == pro porovnání dvou hran (hrany se rovnají, pokud mají shodný počáteční a koncový bod).
+\end{itemize}
+
+\subsection{Triangle}
+%=======================================================
+% Doplniš to prosím? Jasan
+%======================================================
+Definice nového datového typu \textbf{Triangle}. Ukládá trojici vrcholů a sklon a expozici jimi tvořeného trojúhelníku.
+
+\begin{itemize}
+	\item členské proměnné:\\ \textbf{QPoint3D p1,p2,p3} - tři vrcholy trojúhelníku \\
+	\textbf{double slope, aspect} - sklon a expozice trojúhelníku
+	\item public metody \textbf{get$<$}\textit{příslušná členská proměnná}\textbf{$>$} - vrací danou proměnnou.
+\end{itemize}
+
+\subsection{Sortovací kritéria}
+\begin{itemize}
+\item \textbf{SortByXAsc} - řazení bodů typu \textbf{QPoint3D} podle rostoucí souřadnice x, při rovnosti podle y.
+\item \textbf{SortByZAsc} - řazení bodů typu \textbf{QPoint3D} podle rostoucí souřadnice z, při rovnosti podle y, při rovnosti podle x.
+\item \textbf{SortPolByZAsc} - řazení polygonů typu \textbf{QPolygonFZ} podle střední výšky polygonu.
+\end{itemize}
+
 
 \subsection{Algorithms}
 V třídě Algorithms jsou staticky implementovány algoritmy počítající Delaunay triangulaci, vrstevnice, analýzu DMT (sklon a expozici) - a barevnou hypsometrii. 
@@ -310,8 +396,8 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 			\item Tato metoda slouží k určení polohy bodu vůči přímce. Návratovou hodnotou je výčtový typ \textbf{TPosition}.
 			\item Vstup
 				\begin{itemize}
-					\item \textbf{QPointF \&q} - určovaný bod
-					\item \textbf{QPointF \&a, \&b} - body přímky
+					\item \textbf{QPoint3D \&q} - určovaný bod
+					\item \textbf{QPoint3D \&a, \&b} - body přímky
 				\end{itemize}
 			\item Výstup
 				\begin{itemize}
@@ -325,10 +411,10 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 
 	\item Metoda \textbf{getCircleRadius}
 		\begin{itemize}
-			\item Tato metoda slouží k výpočtu poloměru opsané kružnice \textbf{double}.
+			\item Tato metoda slouží k výpočtu poloměru opsané kružnice. Návratovou hodnotou je \textbf{double}.
 			\item Vstup
 				\begin{itemize}
-					\item \textbf{QPoint3D \&p1, \&p2, \&p3, \&c} - body $p_i$ jsou body, jimž je kružnice opsána, do bodu c jsou ukládány souřadnice středu kružnice.
+					\item \textbf{QPoint3D \&p1, \&p2, \&p3, \&c} - body $p_i$ definují kružnici, do bodu c jsou ukládány souřadnice středu kružnice.
 				\end{itemize}
 			\item Výstup
 				\begin{itemize}	
@@ -338,7 +424,7 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 		
 	\item Metoda \textbf{getNearestPoint}		
 	\begin{itemize}
-		\item Tato metoda slouží k vyhedání nejbližšího bodu. \textbf{int}.
+		\item Tato metoda slouží k vyhledání nejbližšího bodu. Návratovou hodnotou je \textbf{int}.
 		\item Vstup
 		\begin{itemize}
 			\item \textbf{QPoint3D \&p, std::vector$<$QPoint3D$>$ \&points} - od bodu $p$ je hledán nejbližší bod z vektoru bodů $points$.
@@ -351,7 +437,7 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 	
 	\item Metoda \textbf{distance}		
 	\begin{itemize}
-		\item Tato metoda slouží k výpočtu vzdálenosti dvou bodů. \textbf{double}.
+		\item Tato metoda slouží k výpočtu vzdálenosti dvou bodů. Návratovou hodnotou je \textbf{double}.
 		\item Vstup
 		\begin{itemize}
 			\item \textbf{QPoint3D \&p1, QPoint3D \&p2} 
@@ -364,7 +450,7 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 
 	\item Metoda \textbf{getDelaunayPoint}		
 \begin{itemize}
-	\item Tato metoda slouží k vyhledání bodu, který vyhovuje kritériím Delaunay traingulace. \textbf{int}.
+	\item Tato metoda slouží k vyhledání bodu, který vyhovuje kritériím Delaunay triangulace. Návratovým typem je \textbf{int}.
 	\item Vstup
 	\begin{itemize}
 		\item \textbf{QPoint3D \&s, QPoint3D \&e, std::vector$<$QPoint3D$>$ \&points} 
@@ -377,7 +463,7 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 
 	\item Metoda \textbf{DT}		
 \begin{itemize}
-	\item Tato metoda slouží k vytvoření vektoru, v němž jsou hrany Delaunay triangulace. \textbf{std::vector$<$Edge$>$ }.
+	\item Tato metoda slouží k vytvoření vektoru, v němž jsou uloženy hrany Delaunay triangulace. Návratovým typem je \textbf{std::vector$<$Edge$>$ }.
 	\item Vstup
 	\begin{itemize}
 		\item \textbf{std::vector$<$QPoint3D$>$ \&points} 
@@ -390,10 +476,10 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 
 	\item Metoda \textbf{getContourPoint}		
 \begin{itemize}
-	\item Tato metoda slouží k vypočtení souřadnic průsečíku vrstevnice a hrany DT. \textbf{QPoint3D}.
+	\item Tato metoda slouží k vypočtení souřadnic průsečíku vrstevnice a hrany DT. Návratovým typem je \textbf{QPoint3D}.
 	\item Vstup
 	\begin{itemize}
-		\item \textbf{QPoint3D \&p1,\&p2, double z} z je výška vrstevnice, bod $p_1 resp. p_2$ je počáteční resp. koncový bod hrany.
+		\item \textbf{QPoint3D \&p1,\&p2, double z}, z je výška vrstevnice, bod $p_1 resp. p_2$ je počáteční resp. koncový bod hrany.
 	\end{itemize}
 	\item Výstup
 	\begin{itemize}	
@@ -403,12 +489,13 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 
 	\item Metoda \textbf{createContours}		
 \begin{itemize}
-	\item Tato metoda slouží k vypočtení vrstevnic. \textbf{std::vector$<$Edge$<$}.
+	\item Tato metoda slouží k vypočtení vrstevnic a barevné hypsometrie. Návratovým typem je \textbf{std::vector$<$Edge$<$}.
 	\item Vstup
 	\begin{itemize}
-		\item \textbf{std::vector$<$Edge$<$ \&dt,
-			double z\_min, double z\_max,
-			double dz,std::vector$<$double$<$ \&contour\_heights, std::vector$<$QPolygonFZ$<$\&hyps} 
+		\item \textbf{std::vector$<$Edge$>$ \&dt} - vektor hran
+		\item \textbf{double z\_min, double z\_max, double dz} - rozsah vrstevnic a jejich krok
+		\item \textbf{std::vector$<$double$<$ \&contour\_heights} - vektor, do kterého jsou ukládány výšky vrstevnic, pořadí stejné jako pořadí hran vrstevnic ve výstupu z metody
+		\item \textbf{std::vector$<$QPolygonFZ$>$\&hyps} - vektor, do kterého jsou ukládány polygony jednoho intervalu vrstevnic v rámci jednoho trojúhelníku (pro barevnou hypsometrii). 
 	\end{itemize}
 	\item Výstup
 	\begin{itemize}	
@@ -418,33 +505,33 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 
 	\item Metoda \textbf{getSlope}		
 \begin{itemize}
-	\item Tato metoda slouží k výpočtu sklonu trojúhelníku {double}.
+	\item Tato metoda slouží k výpočtu sklonu trojúhelníku. Návratovým typem je \textbf{double}.
 	\item Vstup
 	\begin{itemize}
 		\item \textbf{QPoint3D \&p1, \&p2, \&p3} - vrcholy trojúhelníku.
 	\end{itemize}
 	\item Výstup
 	\begin{itemize}	
-		\item sklon trojúhelníku $[^\circ]$.
+		\item sklon trojúhelníku ve stupních.
 	\end{itemize}
 \end{itemize}
 
 	\item Metoda \textbf{getAspect}		
 \begin{itemize}
-	\item Tato metoda slouží k výpočtu expozice trojúhelníku {double}.
+	\item Tato metoda slouží k výpočtu expozice trojúhelníku. Návratovým typem je \textbf{double}.
 	\item Vstup
 	\begin{itemize}
 		\item \textbf{QPoint3D \&p1, \&p2, \&p3} - vrcholy trojúhelníku.
 	\end{itemize}
 	\item Výstup
 	\begin{itemize}	
-		\item expozice trojúhelníku $[^\circ]$.
+		\item expozice trojúhelníku ve stupních.
 	\end{itemize}
 \end{itemize}
 
 	\item Metoda \textbf{analyzeDMT}		
 \begin{itemize}
-	\item Tato metoda slouží k vytvoření trojúhelníků a vúpočtů jejich sklonu a expozice {std::vector$<$Triangle$>$}.
+	\item Tato metoda slouží k vytvoření trojúhelníků a výpočtu jejich sklonu a expozice. Návratovým typem je \textbf{std::vector$<$Triangle$>$}.
 	\item Vstup
 	\begin{itemize}
 		\item \textbf{std::vector$<$Edge$>$ \&dt} - vektor hran Delaunay triangulace.
@@ -455,17 +542,36 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 	\end{itemize}
 \end{itemize}
 
+\item Metoda \textbf{processPts}
+\begin{itemize}
+	\item Tato metoda slouží k vytvoření vektoru polygonů se střední výškou podle zadaného kroku pro barevnou hypsometrii. Návratovým typem je \textbf{void}.
+	\item Vstup
+	\begin{itemize}
+		\item \textbf{std::vector$<$QPoint3D$>$ \&pts} - body, z nichž jsou polygony tvořeny
+		\item \textbf{double dz} - krok vrstevnic
+		\item \textbf{std::vector$<$QPolygonFZ$>$ \&pols} - vektor, do něhož jsou vytvořené polygony ukládané.
+	\end{itemize}
+\end{itemize}
+
 	\item Metoda \textbf{sweepLineCH}
 \begin{itemize}
-	\item Tato metoda slouží k výpočtu konvexní obálky pomocí algoritmu Sweep Line. Jejím výstupním typem je \textbf{QPolygonF}.
+	\item Tato metoda slouží k výpočtu konvexní obálky pomocí algoritmu Sweep Line. Jejím výstupním typem je \textbf{QPolygonF}. Metoda použita při výpočtu barevné hypsometrie.
 	\item Vstup
 	\begin{itemize}
 		\item \textbf{std::vector} $<$\textbf{QPointF}$>$ \textbf{points} - vektor bodů, kolem nichž má být vytvořená konvexní obálka.
 	\end{itemize}
 	\item Výstup
 	\begin{itemize}
-		\item Polygon obsahující kovexní obálku.
+		\item Polygon obsahující konvexní obálku.
 	\end{itemize} 
+\end{itemize}
+
+\item Metoda \textbf{avgH}
+\begin{itemize}
+	\item Metoda slouží k výpočtu průměrné výšky zadaných bodů. Návratovým typem je \textbf{double}.
+	\item Vstup - \textbf{std::vector$<$QPoint3D$>$ \&pts} - vstupní body
+	\item Výstup - průměrná hodnota výšek
+	
 \end{itemize}
 
 \end{itemize}	
@@ -483,18 +589,14 @@ Třída draw slouží k vykreslení načtených bodů, vypočtené Delaunay tria
 			\item \textbf{std::vector $<$double$>$ contours\_heights} - vektor výšek vrstevnic
 			\item \textbf{std::vector $<$Triangle$>$ dtm} - vektor trojúhelníků Delaunay triangulace
 			\item \textbf{std::vector $<$QPolygonFZ$>$ hyps} - vektor polygonů hypsometrie
-			\item \textbf{bool draw\_main} - nese informaci, zda chce uživatel vykreslit zvýraznění hlavních vrstevnic
 			\item \textbf{int step} - rozestup vrstevnic
-			\item \textbf{bool draw\_slope} - nese informaci, má být vykreslen sklon
-			\item \textbf{bool draw\_aspect} - nese informaci, má být vykreslena expozice
-			\item \textbf{bool draw\_hyps} - nese informaci, má být vykreslena hypsometrie
-			\item \textbf{std::vector $<$QColor$>$ ctable} - tabulka barev pro hypsometrii
+			\item \textbf{bool draw\_main} - flag vykreslení hlavních vrstevnic
+			\item \textbf{bool draw\_slope} - flag vykreslení sklonu - v konstruktoru třídy nastaveno na false
+			\item \textbf{bool draw\_aspect} - flag vykreslení expozice - v konstruktoru třídy nastaveno na false
+			\item \textbf{bool draw\_hyps} - flag vykreslení barevné hypsometrie - v konstruktoru třídy nastaveno na false
+			\item \textbf{std::vector $<$QColor$>$ ctable} - tabulka barev pro hypsometrii, v konstruktoru třídy načtena ze souboru
 		\end{itemize}
 	
-
-
-
-	\item public metody
 	\begin{itemize}
 	\item Metoda \textbf{paintEvent}
 		\begin{itemize}
@@ -514,105 +616,73 @@ Třída draw slouží k vykreslení načtených bodů, vypočtené Delaunay tria
 %				\end{itemize}
 %		\end{itemize}
 
+\item Metoda \textbf{clearPoints}
+		\begin{itemize}
+			\item Tato metoda slouží pro vymazání bodů.
+		\end{itemize}	
+
 	\item Metoda \textbf{clearDT}
 		\begin{itemize}
 			\item Tato metoda slouží pro vymazání bodů, triangulace, vrstevnic a hypsometrie. Na vstupu není nic a je typu void.
 		\end{itemize}	
 
 	\item Metoda \textbf{getPoints}
-Tato metoda slouží k zpřístupnění členské proměnné points.
+Tato metoda vrací členskou proměnnou \textbf{std::vector $<$QPoint3D$>$ points}.
 
 
 	\item Metoda \textbf{getDT}
-Tato metoda slouží k zpřístupnění členské proměnné dt.
+Tato metoda vrací členskou proměnnou \textbf{std::vector $<$Edge$>$ dt }.
 %=======================================================================================================
 	\item Metoda \textbf{setDT}
 Tato metoda slouží k přiřazení hodnot členské proměnné dt.
 
 	\item Metoda \textbf{setContours}
-Metoda slouží k přiřazení hodnot členským proměnným contours, sontours\_heights, step, draw\_main a hyps.
+Metoda slouží k přiřazení hodnot členským proměnným \textbf{std::vector $<$Edge$>$ contours}, \textbf{std::vector $<$double$>$ contours\_heights}, \textbf{int step}, \textbf{bool draw\_main} a \textbf{std::vector $<$QPolygonFZ$>$ hyps}.
 
 \item Metoda \textbf{setDTM}
-Tato metoda slouží k přiřazení hodnot členské proměnné dtm.
+Tato metoda slouží k přiřazení hodnot členské proměnné \textbf{std::vector $<$Triangle$>$ dtm}.
 
 	\item Metoda \textbf{loadPoints}
 \begin{itemize}
-	\item Tato metoda slouží pro načtení bodů z textového souboru do vetoru points a pro určení minimální a maximální výšky bodů v souboru. Zároveň je zvoleno "měřítko" kanvasu dle velikosti kanvasu a rozsahu vstupních dat. \textbf{void}.
+	\item Tato metoda slouží pro načtení bodů z textového souboru do vektoru \textbf{points} a pro určení minimální a maximální výšky bodů v souboru. Zároveň je zvoleno "měřítko" kanvasu dle velikosti kanvasu a rozsahu vstupních dat. Návratovým typem je \textbf{void}.
 	\item Vstup
 	\begin{itemize}
-		\item \textbf{std::string path, QSizeF \&canvas\_size, double \&min\_z, \&max\_z}
+		\item \textbf{std::string points\_path} - cesta k vstupnímu souboru
+		\item \textbf{QSizeF \&canvas\_size} - velikost kanvasu
+		\item \textbf{double \&min\_z, \&max\_z} - nejmenší/největší výška
 	\end{itemize}
 \end{itemize}
 %=======================================================
-%Tady nevím, jak to napsat, doplniš to prosím?
+%Tady nevím, jak to napsat, doplniš to prosím? oujé
 %======================================================
-%	\item Metoda \textbf{setDrawSlope}
+	\item Metoda \textbf{setDrawSlope}
+	\begin{itemize}
+		\item Tato metoda slouží k zapnutí/vypnutí vykreslování sklonu a k vypnutí vykreslování expozice a hypsometrie. 
+	\end{itemize}
 %
 %
-%	\item Metoda \textbf{setDrawAspect}
+	\item Metoda \textbf{setDrawAspect}
+	\begin{itemize}
+		\item Tato metoda slouží k zapnutí/vypnutí vykreslování expozice a k vypnutí vykreslování sklonu a hypsometrie. 
+	\end{itemize}
 
-%	\item Metoda \textbf{drawHypsometry}
+\item Metoda \textbf{drawHypsometry}
+\begin{itemize}
+		\item Tato metoda slouží k zapnutí/vypnutí vykreslování hypsometrie a k vypnutí vykreslování sklonu a expozice. 
+	\end{itemize}
 %========================================================
 	
 	\item Metoda \textbf{genAspColor}
-	Metoda slouží k přiřazení hodnot do členské proměnné ctable - zde jsou přiřazeny barvy k hodnotám expozice.
-
-
-\end{itemize}
-\end{itemize}
-
-
-\subsection{Edge}
-%=======================================================
-% Doplniš to prosím?
-%======================================================
-
-\begin{itemize}
-	\item členské proměnné \textbf{Qpoint3D s, e} - počáteční a koncový bod hrany
-	\item public metody:
 	\begin{itemize}
-		\item \textbf{getS resp. getE} - metoda slouží k zpřístupnění členských proměnných s resp. e. Návratovým typem je \textbf{QPoint3D}. 
-		\item \textbf{switchOr} - metoda slouží ke změně orientace hrany - prohodí počáteční a koncový bod. Návratovým typem je \textbf{void}. 
+	\item Metoda slouží k nastavení barev pro expozici. Jejím návratovým typem je \textbf{std::vector$<$QColor$>$}. Na vstupu nemá nic, vrací vektor barev.
 	\end{itemize}
+
+%	
+
+
+\end{itemize}
 \end{itemize}
 
-\subsection{QPoint3D}
-
-Implicitní hodnoty souřadnic: $[0,0,0]$
-%=======================================================
-% Doplniš to prosím?
-%======================================================
-\begin{itemize}
-	\item členské proměnné \textbf{double z} - výška bodu
-	\item public metody:
-	\begin{itemize}
-		\item \textbf{getZ} - metoda slouží k zpřístupnění členské proměnné z. Návratovým typem je \textbf{double}. 
-		\item \textbf{getZ} - metoda slouží k přiřazení hodnoty do členské proměnné z. Návratovým typem je \textbf{void}. 
-	\end{itemize}
-\end{itemize}
-%=======================================================
-% Doplniš to prosím?
-%======================================================
-%\subsection{QPolygonFZ}
-
-\subsection{SortByXAsc, SortByZAsc,}
-Třídy sloužící jako sortovací kritérium - podle rostoucí souřadnice x resp. souřadnice y (při stejných souřadnicích x resp. y je druhým kritériem druhá souřadnice) a podle rostoucího úhlu mezi body (při stejném úhlu je druhým kritériem vzdálenosti mezi body).
-
-%=======================================================
-% Doplniš to prosím?
-%======================================================
-%\subsection{SortPolByZAsc}
-%
-\subsection{Triangle}
-%=======================================================
-% Doplniš to prosím?
-%======================================================
-\begin{itemize}
-	\item členské proměnné:\\ \textbf{QPoint3D p1,p2,p3} - tři vrcholy trojúhelníku \\
-	\textbf{double slope, aspect} - sklon a expozice trojúhelníku
-	\item public metody:\\
-	Metodami je zpřístupněna hdonota členských proměnných.
-\end{itemize}
 
 
 \clearpage
@@ -622,19 +692,22 @@ Třídy sloužící jako sortovací kritérium - podle rostoucí souřadnice x r
 Tato třída slouží ke komunikaci s GUI. Třída dědí od třídy QWidget. Všechny její metody slouží jako sloty k signálům z GUI, nemají žádné vstupní hodnoty a jejich návratovým typem je void. 
 
 \begin{itemize}
-	\item Metoda \textbf{on\_del\_button\_clicked} - reaguje na zmáčknutí tlačítka pro vypočtení Daleunay triangulace, volá metodu \textbf{AnalyzeDTM} z třídy \textbf{Algorithms}.
-
-	\item Metoda \textbf{on\_clear\_button\_clicked} - reaguje na zmáčknutí tlačítka pro vymazání obsahu kreslícího plátna, volá metodu \textbf{clearDT} z třídy \textbf{Draw}.
 	
-	\item Metoda \textbf{on\_cont\_button\_clicked} - reaguje na zmáčknutí tlačítka pro generování vrstevnic bodů, volá metodu \textbf{createContours} z třídy \textbf{Algorithms} a \textbf{setContours} z třídy \textbf{Draw}.
+	\item Členské proměnné \textbf{double z\_min, double z\_max} - instance třídy si drží minimální a maximální výšku vstupních bodů
 
-	\item Metoda \textbf{on\_slope\_button\_clicked} - reaguje na zmáčknutí tlačítka pro vypočet sklonu, volá metodu \textbf{setDrawSlope} z třídy \textbf{Draw}.
+	\item Metoda \textbf{on\_trg\_button\_clicked} - výpočet triangulace a její vizualizace.
 
-	\item Metoda \textbf{on\_load\_points\_button\_clicked} - reaguje na zmáčknutí tlačítka pro načtení bodů, volá metodu \textbf{loadPoints} z třídy \textbf{Draw}.
+	\item Metoda \textbf{on\_clear\_button\_clicked} - maže obsah kanvasu.
 	
-	\item Metoda \textbf{on\_aspect\_button\_clicked} - reaguje na zmáčknutí tlačítka pro výpočet expozice , volá metodu \textbf{setDrawAspect} z třídy \textbf{Draw}.
+	\item Metoda \textbf{on\_cont\_button\_clicked} - výpočet vrstevnic a hypsometrie, vizualizace vrstevnic.
+
+	\item Metoda \textbf{on\_slope\_button\_clicked} - výpočet a vizualizace sklonu. 
+
+	\item Metoda \textbf{on\_load\_points\_button\_clicked} - načtení a vizualizace vstupních bodů. Nastavení minimální a maximální výšky vstupních bodů do členských proměnných.
 	
-	\item Metoda \textbf{on\_hyps\_button\_clicked} - reaguje na zmáčknutí tlačítka pro vykreslení hypsometrie, volá metodu \textbf{drawHypsometry} z třídy \textbf{Draw}.
+	\item Metoda \textbf{on\_aspect\_button\_clicked} - výpočet a vizualizace expozice.
+	
+	\item Metoda \textbf{on\_hyps\_button\_clicked} - vizualizace barevné hypsometrie.
 
 \end{itemize} 
 
@@ -644,16 +717,16 @@ Tato třída slouží ke komunikaci s GUI. Třída dědí od třídy QWidget. V�
 \section{Přílohy}
 
 \begin{itemize}
-	\item Príloha č.1: Testovacídata - \textit{testovaci\_data.txt}.
+	\item Příloha č.1: Testovací data - \textit{testovaci\_data.txt}.
 \end{itemize}
  %--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \clearpage
 \section{Závěr}
 
 \subsection{Zhodnocení}
-
+Jistě že implementace barevné hypsometrie by šla provést určitě lépe a efektivnějí. Nicméně s naším postupem jsme spokojeni, protože jsme si ho vymysleli sami. To, že implementace zabrala hodně času (zvlášť ladění) a asi o hodně víc času (hloupé chyby -$>$ debugování (debeatlesování?) levelu Yoko Ono) než nepovinné úlohy za dvojnásobek bodů (resp. ta s generováním terénních útvarů), nám nevadí, protože jedeme spíš na to, co nás baví a barvičky baví každého.
 \subsection{Návrhy na vylepšení}
-
+Nynější automatické popisky vrstevnic jsou spíš ošklivé než hezké, přestože plní účel. Popisky by tedy chtělo vylepšit, aby respektovaly kartografické zásady. Dále by možná stála za to změna barevné mapy při vykreslování expozice. Expozice (ikdyž barvy jsou přebrané od ESRI) není takto moc intuitivní. 
 
 \clearpage
 \section{Zdroje}

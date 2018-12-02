@@ -17,7 +17,7 @@ public:
     ~Widget();
 
 private slots:
-    void on_del_button_clicked();
+    void on_trg_button_clicked();
 
     void on_clear_button_clicked();
 

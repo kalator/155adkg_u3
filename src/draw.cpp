@@ -38,6 +38,8 @@ Draw::Draw(QWidget *parent) : QWidget(parent)
         col_file >> b;
         this->ctable.push_back(QColor(r,g,b));
     }
+
+    col_file.close();
 }
 
 void Draw::setContours(std::vector<Edge> &contours_,
@@ -281,11 +283,4 @@ std::vector<QColor> Draw::genAspColors()
 
     return colors;
 
-}
-
-void Draw::drawHypsometry()
-{
-    this->draw_hyps = !this->draw_hyps;
-    this->draw_aspect = false;
-    this->draw_slope = false;
 }

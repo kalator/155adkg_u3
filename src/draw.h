@@ -47,9 +47,8 @@ class Draw : public QWidget
         void loadPoints(std::string points_path, QSizeF &canvas_size, double &min_z, double &max_z);
         void setDrawSlope(){this->draw_slope = !this->draw_slope; this->draw_aspect = false; this->draw_hyps = false;}
         void setDrawAspect(){this->draw_aspect = !this->draw_aspect; this->draw_slope = false; this->draw_hyps = false;}
+        void drawHypsometry(){this->draw_hyps = !this->draw_hyps; this->draw_aspect = false; this->draw_slope = false;}
         std::vector<QColor> genAspColors();
-        void drawHypsometry();
-
 
     signals:
 
