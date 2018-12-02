@@ -12,13 +12,16 @@
 \BOOKMARK [1][-]{section.5}{Vstupn\355 data}{}% 12
 \BOOKMARK [1][-]{section.6}{V\375stupn\355 data}{}% 13
 \BOOKMARK [1][-]{section.7}{Uk\341zka vytvoren\351 aplikace}{}% 14
-\BOOKMARK [2][-]{subsection.7.1}{Algorithms}{section.7}% 15
-\BOOKMARK [2][-]{subsection.7.2}{Draw}{section.7}% 16
-\BOOKMARK [2][-]{subsection.7.3}{SortByXAsc, SortByYAsc, SortByAngleAsc}{section.7}% 17
-\BOOKMARK [2][-]{subsection.7.4}{Widget}{section.7}% 18
-\BOOKMARK [2][-]{subsection.7.5}{HelpDialog}{section.7}% 19
-\BOOKMARK [1][-]{section.8}{Pr\355lohy}{}% 20
-\BOOKMARK [1][-]{section.9}{Z\341ver}{}% 21
-\BOOKMARK [2][-]{subsection.9.1}{Politov\341n\355 se a vysvetlen\355 na\235eho probl\351mu}{section.9}% 22
-\BOOKMARK [2][-]{subsection.9.2}{N\341vrhy na vylep\235en\355}{section.9}% 23
-\BOOKMARK [1][-]{section.10}{Zdroje}{}% 24
+\BOOKMARK [1][-]{section.8}{Dokumentace}{}% 15
+\BOOKMARK [2][-]{subsection.8.1}{Algorithms}{section.8}% 16
+\BOOKMARK [2][-]{subsection.8.2}{Draw}{section.8}% 17
+\BOOKMARK [2][-]{subsection.8.3}{Edge}{section.8}% 18
+\BOOKMARK [2][-]{subsection.8.4}{QPoint3D}{section.8}% 19
+\BOOKMARK [2][-]{subsection.8.5}{SortByXAsc, SortByZAsc,}{section.8}% 20
+\BOOKMARK [2][-]{subsection.8.6}{Triangle}{section.8}% 21
+\BOOKMARK [2][-]{subsection.8.7}{Widget}{section.8}% 22
+\BOOKMARK [1][-]{section.9}{Pr\355lohy}{}% 23
+\BOOKMARK [1][-]{section.10}{Z\341ver}{}% 24
+\BOOKMARK [2][-]{subsection.10.1}{Zhodnocen\355}{section.10}% 25
+\BOOKMARK [2][-]{subsection.10.2}{N\341vrhy na vylep\235en\355}{section.10}% 26
+\BOOKMARK [1][-]{section.11}{Zdroje}{}% 27

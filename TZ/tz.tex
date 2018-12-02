@@ -90,7 +90,12 @@ Anna Zemánková \\
 
 
 \section{Údaje o bonusových úlohách}
-
+Z bonusových úloh byly zpracovány:
+\begin{itemize}
+	\item výběr barevné stupnice při vizualizaci expozice (sklon byl vizualizován již na hodině)
+	\item automatický popis vrstevnic
+	\item barevná hypsometrie
+\end{itemize}
 
 
 
@@ -140,8 +145,14 @@ $$\varphi =\arccos(\frac{n_t  n}{|n_t| |n|})$$
 
 \subsection{Expozice}
 Expozice je orientace trojúhelníku vůči světovým stranám.\\
-$$A = \arctan2(\frac{n_x}{n_y});$$ kde $n_x, n_y$ jsou vektorové součiny $u$ a $v$.
+$$A = \arctan2(\frac{n_x}{n_y});$$ kde $n_x, n_y$ jsou vektorové součiny $u$ a $v$.\\
 
+\noindent Expozice je vizualizována pomocí barevného spektra, barvy byly vybrány stejně jako v SW ArcMAP - ESRI:\\
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=4cm]{expozice.jpg}
+	\caption{Vizualizace expozice}
+\end{figure}
 
 
 \clearpage
@@ -209,13 +220,9 @@ Pokud je vstupními daty grid, dochází k nejednoznačnosti Delaunay triangulac
 
 \section{Vstupní data}
 
-Vstupními daty je množina bodů, kterou lze zadat dvěma způsoby:\\
-\begin{enumerate}
-\item klikáním na kanvas, výška se generuje náhodně
-\item nahráním textového souboru se souřadnicemi bodů [X,Y,Z] *.txt pomocí tlačítka \textit{Load points}
-\end{enumerate}
-%--------------------------------------------------------------------------------------------------------------------------------------
-Součástí příloh je textový soubor s testovacími daty \textit{testovaci data.txt}.
+Vstupními daty je textový soubor \textit{*.txt} se souřadnicemi bodů ve tvaru [X,Y,Z]. Lze jej do aplikace nahrát pomocí tlačítka \textit{Load points}.
+
+Součástí příloh je textový soubor s testovacími daty \textit{testovaci\_data.txt}.
 
 \section{Výstupní data}
 Výsledky aplikace jsou vizualizovány v kanvasu grafického rozhraní.
@@ -233,13 +240,13 @@ Výsledky aplikace jsou vizualizovány v kanvasu grafického rozhraní.
 
 
 %OBRÁZEK
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=10cm]{aplikace.jpg}
-%	\caption{Aplikace}
-%\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{aplikace.jpg}
+	\caption{Rozvržení aplikace}
+\end{figure}
 
-Nejprve je třeba zadat vstupní data - viz kapitolu Vstupní data a následně je možné vypočítat Delaunay triangulaci, teprve poté jsou zpřístupněna i ostatní tlačítka aplikace. \\
+Nejprve je třeba nahrát vstupní data pomocí tlačítka \textit{Load points} a následně je možné vypočítat Delaunay triangulaci, teprve poté jsou zpřístupněna i ostatní tlačítka aplikace. \\
 
 %OBRÁZEK
 %\begin{figure}[h]
@@ -283,10 +290,10 @@ Vše je uvedeno do původního stavu (smazány body i vypočtené výsledky) kli
 
 %=======================================================================================
 
-
+\section {Dokumentace}
 
 \subsection{Algorithms}
-V třídě Algorithms jsou staticky implementovány algoritmy počítající kovexní obálku a minimální ohraničující obdélník (včetně vodící linie).
+V třídě Algorithms jsou staticky implementovány algoritmy počítající Delaunay triangulaci, vrstevnice, analýzu DMT (sklon a expozici) - a barevnou hypsometrii. 
 
 \begin{itemize}
 
@@ -315,276 +322,335 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající kov
 
 		\end{itemize}
 
-	\item Metoda \textbf{getTwoVectorsAngle}
+
+	\item Metoda \textbf{getCircleRadius}
 		\begin{itemize}
-			\item Tato metoda slouží k určení úhlu mezi 2 přímkami. Její návratovou hodnotu je \textbf{double}.
+			\item Tato metoda slouží k výpočtu poloměru opsané kružnice \textbf{double}.
 			\item Vstup
 				\begin{itemize}
-					\item \textbf{QPointF \&p1, \&p2} - body první přímky
-					\item \textbf{QPointF \&p3, \&p4} - body druhé přímky
-				\end{itemize}
-		
-			\item Výstup
-				\begin{itemize}
-					\item Úhel mezi 2 přímkami
-				\end{itemize}			
-		\end{itemize}
-
-	\item Metoda \textbf{getPointLineDistance}
-		\begin{itemize}
-			\item Tato metoda slouží k výpočtu vzdálenosti bodu od přímky. Její návratovou hodnotou je \textbf {double} %\begin{double.}
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{QPointF \&q} - určovaný bod
-					\item \textbf{QPointF \&a, \&b} - body přímky
-				\end{itemize}
-			\item Výstup
-				\begin{itemize}
-					\item Vzdálenost bodu od přímky
-				\end{itemize}
-		\end{itemize}
-
-	\item Přetížená metoda \textbf{rotateByAngle}
-		\begin{itemize}
-			\item Tato metoda slouží k rotaci dané množiny o úhel. Jejím návratovým typem je \textbf{void}.
-			\item Vstup
-				\begin{itemize}
-					\item Přetížení 1
-						\begin{itemize}
-							\item \textbf{std::vector$<$QPointF$>$ \&points} - vektor bodů, jež má být orotován
-							\item \textbf{double angle} - úhel, o který má rotace být provedena
- 						\end{itemize}
-					
-					\item Přetížení 2
-						\begin{itemize}
-							\item \textbf{QPolygonF \&points} - polygon, jež má být orotován
-							\item \textbf{double angle} - úhel, o který má rotace být provedena
- 						\end{itemize}
-
-					\item Přetížení 3
-						\begin{itemize}
-							\item \textbf{QLineF \&points} - úsečka, jež má být orotována
-							\item \textbf{double angle} - úhel, o který má rotace být provedena
- 						\end{itemize}					
-				\end{itemize}
-			
-		\end{itemize}
-
-	\item Metoda \textbf{getDistance}
-		\begin{itemize}
-			\item Tato metoda slouží k výpočtu vzdálenosti dvou bodů. Jejím výstupním typem je \textbf{double}.
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{QPointF \&a, \&b} - body, mezi kterými je vzdálenost počítána
+					\item \textbf{QPoint3D \&p1, \&p2, \&p3, \&c} - body $p_i$ jsou body, jimž je kružnice opsána, do bodu c jsou ukládány souřadnice středu kružnice.
 				\end{itemize}
 			\item Výstup
 				\begin{itemize}	
-					\item Vypočtená vzdálenost
+					\item Vypočtený poloměr kružnice.
 				\end{itemize}
-		\end{itemize}
-
-	\item Metoda \textbf{jarvisScanCH}
+		\end{itemize}	
+		
+	\item Metoda \textbf{getNearestPoint}		
+	\begin{itemize}
+		\item Tato metoda slouží k vyhedání nejbližšího bodu. \textbf{int}.
+		\item Vstup
 		\begin{itemize}
-			\item Tato metoda slouží k výpočtu konvexní obálky pomocí algoritmu Jarvis Scan. Během výpočtu je ošetřována singularita existence kolineárních bodů v datasetu. Jejím výstupním typem je \textbf{QPolygonF}.
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{std::vector} $<$\textbf{QPointF}$>$ \textbf{points} - vektor bodů, kolem nichž má být vytvořená konvexní obálka.
-				\end{itemize}
-			\item Výstup
-				\begin{itemize}
-					\item Polygon obsahující kovexní obálku.
-				\end{itemize} 
+			\item \textbf{QPoint3D \&p, std::vector$<$QPoint3D$>$ \&points} - od bodu $p$ je hledán nejbližší bod z vektoru bodů $points$.
 		\end{itemize}
-
-	\item Metoda \textbf{grahamScanCH}
+		\item Výstup
+		\begin{itemize}	
+			\item index nejbližšího bodu.
+		\end{itemize}
+	\end{itemize}	
+	
+	\item Metoda \textbf{distance}		
+	\begin{itemize}
+		\item Tato metoda slouží k výpočtu vzdálenosti dvou bodů. \textbf{double}.
+		\item Vstup
 		\begin{itemize}
-			\item Tato metoda slouží k výpočtu konvexní obálky pomocí algoritmu Graham Scan. Jejím výstupním typem je \textbf{QPolygonF}.
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{std::vector} $<$\textbf{QPointF}$>$ \textbf{points} - vektor bodů, kolem nichž má být vytvořená konvexní obálka.
-				\end{itemize}
-			\item Výstup
-				\begin{itemize}
-					\item Polygon obsahující kovexní obálku.
-				\end{itemize} 
+			\item \textbf{QPoint3D \&p1, QPoint3D \&p2} 
 		\end{itemize}
+		\item Výstup
+		\begin{itemize}	
+			\item vzdálenost dvou bodů.
+		\end{itemize}
+	\end{itemize}
 
-	\item Metoda \textbf{quickHullCH}
-		\begin{itemize}
-			\item Tato metoda slouží k výpočtu konvexní obálky pomocí algoritmu Quick Hull. Jejím výstupním typem je \textbf{QPolygonF}.
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{std::vector} $<$\textbf{QPointF}$>$ \textbf{points} - vektor bodů, kolem nichž má být vytvořená konvexní obálka.
-				\end{itemize}
-			\item Výstup
-				\begin{itemize}
-					\item Polygon obsahující kovexní obálku.
-				\end{itemize} 
-		\end{itemize}
+	\item Metoda \textbf{getDelaunayPoint}		
+\begin{itemize}
+	\item Tato metoda slouží k vyhledání bodu, který vyhovuje kritériím Delaunay traingulace. \textbf{int}.
+	\item Vstup
+	\begin{itemize}
+		\item \textbf{QPoint3D \&s, QPoint3D \&e, std::vector$<$QPoint3D$>$ \&points} 
+	\end{itemize}
+	\item Výstup
+	\begin{itemize}	
+		\item index bodu.
+	\end{itemize}
+\end{itemize}
 
-	\item Metoda \textbf{quickHullLocal}
-		\begin{itemize}
-			\item Pomocná metoda k výpočtu konvexní obálky metodou Quick Hull. Jejím výstupním typem je \textbf{void}.
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{int s, e} - index počátečního a koncového bodu dělící přímky
-					\item \textbf{std::vector} $<$\textbf{QPointF}$>$ \&\textbf{points} - vektor bodů, kolem nichž má být vytvořená konvexní obálka.
-					\item \textbf{QPolygonF \&poly\_ch} - polygon obsahující body konvexní obálky
-				\end{itemize}
-			\item Výstup
-				\begin{itemize}
-					\item Polygon obsahující kovexní obálku.
-				\end{itemize} 
-		\end{itemize}
+	\item Metoda \textbf{DT}		
+\begin{itemize}
+	\item Tato metoda slouží k vytvoření vektoru, v němž jsou hrany Delaunay triangulace. \textbf{std::vector$<$Edge$>$ }.
+	\item Vstup
+	\begin{itemize}
+		\item \textbf{std::vector$<$QPoint3D$>$ \&points} 
+	\end{itemize}
+	\item Výstup
+	\begin{itemize}	
+		\item vektor hran Delaunay triangulace.
+	\end{itemize}
+\end{itemize}
+
+	\item Metoda \textbf{getContourPoint}		
+\begin{itemize}
+	\item Tato metoda slouží k vypočtení souřadnic průsečíku vrstevnice a hrany DT. \textbf{QPoint3D}.
+	\item Vstup
+	\begin{itemize}
+		\item \textbf{QPoint3D \&p1,\&p2, double z} z je výška vrstevnice, bod $p_1 resp. p_2$ je počáteční resp. koncový bod hrany.
+	\end{itemize}
+	\item Výstup
+	\begin{itemize}	
+		\item průsečík vrstevnice a trojúhelníku DT.
+	\end{itemize}
+\end{itemize}
+
+	\item Metoda \textbf{createContours}		
+\begin{itemize}
+	\item Tato metoda slouží k vypočtení vrstevnic. \textbf{std::vector$<$Edge$<$}.
+	\item Vstup
+	\begin{itemize}
+		\item \textbf{std::vector$<$Edge$<$ \&dt,
+			double z\_min, double z\_max,
+			double dz,std::vector$<$double$<$ \&contour\_heights, std::vector$<$QPolygonFZ$<$\&hyps} 
+	\end{itemize}
+	\item Výstup
+	\begin{itemize}	
+		\item vektor hran vrstevnic.
+	\end{itemize}
+\end{itemize}
+
+	\item Metoda \textbf{getSlope}		
+\begin{itemize}
+	\item Tato metoda slouží k výpočtu sklonu trojúhelníku {double}.
+	\item Vstup
+	\begin{itemize}
+		\item \textbf{QPoint3D \&p1, \&p2, \&p3} - vrcholy trojúhelníku.
+	\end{itemize}
+	\item Výstup
+	\begin{itemize}	
+		\item sklon trojúhelníku $[^\circ]$.
+	\end{itemize}
+\end{itemize}
+
+	\item Metoda \textbf{getAspect}		
+\begin{itemize}
+	\item Tato metoda slouží k výpočtu expozice trojúhelníku {double}.
+	\item Vstup
+	\begin{itemize}
+		\item \textbf{QPoint3D \&p1, \&p2, \&p3} - vrcholy trojúhelníku.
+	\end{itemize}
+	\item Výstup
+	\begin{itemize}	
+		\item expozice trojúhelníku $[^\circ]$.
+	\end{itemize}
+\end{itemize}
+
+	\item Metoda \textbf{analyzeDMT}		
+\begin{itemize}
+	\item Tato metoda slouží k vytvoření trojúhelníků a vúpočtů jejich sklonu a expozice {std::vector$<$Triangle$>$}.
+	\item Vstup
+	\begin{itemize}
+		\item \textbf{std::vector$<$Edge$>$ \&dt} - vektor hran Delaunay triangulace.
+	\end{itemize}
+	\item Výstup
+	\begin{itemize}	
+		\item vektor trojúhelníků a jejich sklon a expozice.
+	\end{itemize}
+\end{itemize}
 
 	\item Metoda \textbf{sweepLineCH}
-		\begin{itemize}
-			\item Tato metoda slouží k výpočtu konvexní obálky pomocí algoritmu Sweep Line. Jejím výstupním typem je \textbf{QPolygonF}.
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{std::vector} $<$\textbf{QPointF}$>$ \textbf{points} - vektor bodů, kolem nichž má být vytvořená konvexní obálka.
-				\end{itemize}
-			\item Výstup
-				\begin{itemize}
-					\item Polygon obsahující kovexní obálku.
-				\end{itemize} 
-		\end{itemize}
-
-	\item Metoda \textbf{generatePoints}
-		\begin{itemize}
-			\item Metoda pro generování zadaného počtu a tvaru bodů. Jejím výstupním typem je \textbf{std::vector} $<$\textbf{QPointF}$>$ \textbf{points}.
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{QSizeF \&canvas\_size} - rozměry kreslícího plátna, ze kterých se determinuje rozsah generovaných bodů
-					\item \textbf{int point\_count} - počet bodů, který se má generovat
-					\item \textbf{std::string shape} - tvar vytvářené množiny bodů (random, grid, na kružnici, na elipse, na čtverci)
-				\end{itemize}
-			\item Výstup
-				\begin{itemize}
-					\item Vektor nagenerovaných bodů.
-				\end{itemize}
-		\end{itemize}
-
-	\item Metoda \textbf{minimalRectangle}
-		\begin{itemize}
-			\item Metoda pro výpočet minimálního ohraničujícího obdélníku a hlavní linie. Jejím výstupním typem je \textbf{void}.
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{QPolygonF \&poly\_ch} - polygon obsahující konvexní obálku
-					\item \textbf{QPolygonF \&minimal\_rectangle} - polygon, do kterého jsou počítány body minimálního ohraničujícího obdélníku
-					\item \textbf{QLineF \&direction} - hlavní linie minimálního ohraničujícího obdelníku (resp. do této proměnné je počítaná)
-					\item \textbf{bool compute\_dir\_line} - ukazatel určující zda-li má být počítána hlavní linie minimálního ohraničujícího obdélníku
-				\end{itemize}
-
-		\end{itemize}
+\begin{itemize}
+	\item Tato metoda slouží k výpočtu konvexní obálky pomocí algoritmu Sweep Line. Jejím výstupním typem je \textbf{QPolygonF}.
+	\item Vstup
+	\begin{itemize}
+		\item \textbf{std::vector} $<$\textbf{QPointF}$>$ \textbf{points} - vektor bodů, kolem nichž má být vytvořená konvexní obálka.
+	\end{itemize}
+	\item Výstup
+	\begin{itemize}
+		\item Polygon obsahující kovexní obálku.
+	\end{itemize} 
 \end{itemize}
-\clearpage
+
+\end{itemize}	
+
 
 \subsection{Draw}
-Třída draw slouží k vykreslení vygenerovaných (nebo naklikaných) bodů, vypočteného minimálního ohraničujícího obdélníku a hlavní linie minimálního ohraničujícího obdélníku. V této třídě jsou zároveň nagenerované body zbavené duplicit a vypočtené konvexní obálky se zde omezují na striktní konvexní obálky (vše v metodě \textbf{setCH}. Třída dědí od třídy \textbf{QWidget}. 
+Třída draw slouží k vykreslení načtených bodů, vypočtené Delaunay triangulace, vrstevnic, sklonu, expozice a hypsometrie. Třída dědí od třídy \textbf{QWidget}. 
 
 \begin{itemize}
 	\item Členské proměnné
 		\begin{itemize}
-			\item \textbf{std::vector} $<$\textbf{QPointF}$>$ \textbf{points} - vektor obsahující nagenerované nebo naklikané body
-			\item \textbf{QPOlygonF ch} - polygon obsahující body konvexní obálky
-			\item \textbf{QPolygonF rect} - polygon obsahující body minimálního ohraničujícího obdélníku
-			\item \textbf{QLineF direction} - hlavní linie minimálního ohraničujícího obdélníka
+			\item \textbf{std::vector $<$QPoint3D$>$ points } vektor načtených bodů
+			\item \textbf{std::vector $<$Edge$>$ dt }- vektor hran Delaunay triangulace
+			\item \textbf{std::vector $<$Edge$>$ contours} - vektor hran vrstevnic
+			\item \textbf{std::vector $<$double$>$ contours\_heights} - vektor výšek vrstevnic
+			\item \textbf{std::vector $<$Triangle$>$ dtm} - vektor trojúhelníků Delaunay triangulace
+			\item \textbf{std::vector $<$QPolygonFZ$>$ hyps} - vektor polygonů hypsometrie
+			\item \textbf{bool draw\_main} - nese informaci, zda chce uživatel vykreslit zvýraznění hlavních vrstevnic
+			\item \textbf{int step} - rozestup vrstevnic
+			\item \textbf{bool draw\_slope} - nese informaci, má být vykreslen sklon
+			\item \textbf{bool draw\_aspect} - nese informaci, má být vykreslena expozice
+			\item \textbf{bool draw\_hyps} - nese informaci, má být vykreslena hypsometrie
+			\item \textbf{std::vector $<$QColor$>$ ctable} - tabulka barev pro hypsometrii
 		\end{itemize}
+	
 
+
+
+	\item public metody
+	\begin{itemize}
 	\item Metoda \textbf{paintEvent}
 		\begin{itemize}
-			\item Tato metoda slouží k vykreslení nagenerovaných (nebo naklikaných) bodů, konvexní obýlky, minimálního ohraničujícího obdélníka a hlavní linie minimálního ohraničujícího obdélníka. Metoda se volá pomocí metody \textbf{repaint()}. Návratovým typem je \textbf{void}.
+			\item Tato metoda slouží k vykreslení načtených bodů, vypočtené Delaunay triangulace, vrstevnic, sklonu, expozice a hypsometrie. Metoda se volá pomocí metody \textbf{repaint()}. Návratovým typem je \textbf{void}.
 			\item Vstup
 				\begin{itemize}
 					\item \textbf{QPaintEvent *e}
 				\end{itemize}
 		\end{itemize}
 
-	\item Metoda \textbf{mousePressEvent}
-		\begin{itemize}
-			\item Metoda sloužící k uložení bodu do členské proměnné \textbf{points} určeného kliknutím myší nad kreslícím plátnem. Jejím návratovým typem je \textbf{void}.	
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{QMouseEvent *e}
-				\end{itemize}
-		\end{itemize}
+%	\item Metoda \textbf{mousePressEvent}
+%		\begin{itemize}
+%			\item Metoda sloužící k uložení bodu do členské proměnné \textbf{points} určeného kliknutím myší nad kreslícím plátnem. Jejím návratovým typem je \textbf{void}.	
+%			\item Vstup
+%				\begin{itemize}
+%					\item \textbf{QMouseEvent *e}
+%				\end{itemize}
+%		\end{itemize}
 
-	\item Metoda \textbf{setCH}
+	\item Metoda \textbf{clearDT}
 		\begin{itemize}
-			\item Tato metoda slouží pro kontrolu duplicity generovaných bodů, pro kontrolu alespoň 3 bodů, k zavolání příslušného algoritmu pro vypočtení konvexní obálky a k omezení konvexní obálky na striktně konvexní obálku. Metoda počítá dobu trvání výpočetních algoritmů. Jejím návratovým typem je \textbf{double}.
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{std::string \&selected\_algorithm} - uživatelsky vybraný algoritmus pro počítání konvexní obálky
-				\end{itemize}
-			\item Výstup
-				\begin{itemize}
-					\item Čas trvání výpočtu.
-				\end{itemize}
+			\item Tato metoda slouží pro vymazání bodů, triangulace, vrstevnic a hypsometrie. Na vstupu není nic a je typu void.
 		\end{itemize}	
 
-	\item Metoda \textbf{setRect}
-		\begin{itemize}
-			\item Tato metoda slouží pro zavolání algoritmu pro výpočte minimálního ohraničujícího obdélníku a jeho hlavní linie. Jejím návratovým typem je \textbf{void}.
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{bool draw\_dir\_line} - uživatelsky nastavený indikátor, zda-li se má vypočítat hlavní linie minimálního ohraničujícího obdélníku
-				\end{itemize}
-		\end{itemize}
+	\item Metoda \textbf{getPoints}
+Tato metoda slouží k zpřístupnění členské proměnné points.
 
-	\item Metoda \textbf{setPoints}
-		\begin{itemize}
-			\item Metoda volající algoritmus pro generování bodů daného počtu a tvaru. Jejím návratovým typem je \textbf{void}.
-			\item Vstup
-				\begin{itemize}
-					\item \textbf{QSizeF \&canvas\_size} - rozměr kreslícího plátna pro pozdější určení rozsahu generování bodů
-					\item \textbf{int count} - počet bodů, jež se má generovat
-					\item \textbf{std::string \&shape} - tvar, do kterého se body mají generovat
-				\end{itemize}
-		\end{itemize}
 
-	\item Metoda \textbf{clearCanvas}
-		\begin{itemize}
-			\item Metoda, která maže obsah kreslícího okna. Jejím návratovým typem je \textbf{void}. Do metody nevstupují žádné parametry.
-		\end{itemize}
+	\item Metoda \textbf{getDT}
+Tato metoda slouží k zpřístupnění členské proměnné dt.
+%=======================================================================================================
+	\item Metoda \textbf{setDT}
+Tato metoda slouží k přiřazení hodnot členské proměnné dt.
+
+	\item Metoda \textbf{setContours}
+Metoda slouží k přiřazení hodnot členským proměnným contours, sontours\_heights, step, draw\_main a hyps.
+
+\item Metoda \textbf{setDTM}
+Tato metoda slouží k přiřazení hodnot členské proměnné dtm.
+
+	\item Metoda \textbf{loadPoints}
+\begin{itemize}
+	\item Tato metoda slouží pro načtení bodů z textového souboru do vetoru points a pro určení minimální a maximální výšky bodů v souboru. Zároveň je zvoleno "měřítko" kanvasu dle velikosti kanvasu a rozsahu vstupních dat. \textbf{void}.
+	\item Vstup
+	\begin{itemize}
+		\item \textbf{std::string path, QSizeF \&canvas\_size, double \&min\_z, \&max\_z}
+	\end{itemize}
+\end{itemize}
+%=======================================================
+%Tady nevím, jak to napsat, doplniš to prosím?
+%======================================================
+%	\item Metoda \textbf{setDrawSlope}
+%
+%
+%	\item Metoda \textbf{setDrawAspect}
+
+%	\item Metoda \textbf{drawHypsometry}
+%========================================================
+	
+	\item Metoda \textbf{genAspColor}
+	Metoda slouží k přiřazení hodnot do členské proměnné ctable - zde jsou přiřazeny barvy k hodnotám expozice.
+
+
+\end{itemize}
 \end{itemize}
 
-\subsection{SortByXAsc, SortByYAsc, SortByAngleAsc}
+
+\subsection{Edge}
+%=======================================================
+% Doplniš to prosím?
+%======================================================
+
+\begin{itemize}
+	\item členské proměnné \textbf{Qpoint3D s, e} - počáteční a koncový bod hrany
+	\item public metody:
+	\begin{itemize}
+		\item \textbf{getS resp. getE} - metoda slouží k zpřístupnění členských proměnných s resp. e. Návratovým typem je \textbf{QPoint3D}. 
+		\item \textbf{switchOr} - metoda slouží ke změně orientace hrany - prohodí počáteční a koncový bod. Návratovým typem je \textbf{void}. 
+	\end{itemize}
+\end{itemize}
+
+\subsection{QPoint3D}
+
+Implicitní hodnoty souřadnic: $[0,0,0]$
+%=======================================================
+% Doplniš to prosím?
+%======================================================
+\begin{itemize}
+	\item členské proměnné \textbf{double z} - výška bodu
+	\item public metody:
+	\begin{itemize}
+		\item \textbf{getZ} - metoda slouží k zpřístupnění členské proměnné z. Návratovým typem je \textbf{double}. 
+		\item \textbf{getZ} - metoda slouží k přiřazení hodnoty do členské proměnné z. Návratovým typem je \textbf{void}. 
+	\end{itemize}
+\end{itemize}
+%=======================================================
+% Doplniš to prosím?
+%======================================================
+%\subsection{QPolygonFZ}
+
+\subsection{SortByXAsc, SortByZAsc,}
 Třídy sloužící jako sortovací kritérium - podle rostoucí souřadnice x resp. souřadnice y (při stejných souřadnicích x resp. y je druhým kritériem druhá souřadnice) a podle rostoucího úhlu mezi body (při stejném úhlu je druhým kritériem vzdálenosti mezi body).
+
+%=======================================================
+% Doplniš to prosím?
+%======================================================
+%\subsection{SortPolByZAsc}
+%
+\subsection{Triangle}
+%=======================================================
+% Doplniš to prosím?
+%======================================================
+\begin{itemize}
+	\item členské proměnné:\\ \textbf{QPoint3D p1,p2,p3} - tři vrcholy trojúhelníku \\
+	\textbf{double slope, aspect} - sklon a expozice trojúhelníku
+	\item public metody:\\
+	Metodami je zpřístupněna hdonota členských proměnných.
+\end{itemize}
+
+
 \clearpage
+
 
 \subsection{Widget}
 Tato třída slouží ke komunikaci s GUI. Třída dědí od třídy QWidget. Všechny její metody slouží jako sloty k signálům z GUI, nemají žádné vstupní hodnoty a jejich návratovým typem je void. 
 
 \begin{itemize}
-	\item Metoda \textbf{on\_createCHButton\_clicked} - reaguje na zmáčknutí tlačítka pro vypočtení konvexní obálky, volá metodu \textbf{setCH} z třídy \textbf{Draw}, zapisuje čas výpočtu do GUI.
+	\item Metoda \textbf{on\_del\_button\_clicked} - reaguje na zmáčknutí tlačítka pro vypočtení Daleunay triangulace, volá metodu \textbf{AnalyzeDTM} z třídy \textbf{Algorithms}.
 
-	\item Metoda \textbf{on\_generateButton\_clicked} - reaguje na zmáčknutí tlačítka pro generování bodů, volá metodu \textbf{setPoints} z třídy \textbf{Draw}.
+	\item Metoda \textbf{on\_clear\_button\_clicked} - reaguje na zmáčknutí tlačítka pro vymazání obsahu kreslícího plátna, volá metodu \textbf{clearDT} z třídy \textbf{Draw}.
+	
+	\item Metoda \textbf{on\_cont\_button\_clicked} - reaguje na zmáčknutí tlačítka pro generování vrstevnic bodů, volá metodu \textbf{createContours} z třídy \textbf{Algorithms} a \textbf{setContours} z třídy \textbf{Draw}.
 
-	\item Metoda \textbf{on\_clearButton\_clicked} - reaguje na zmáčknutí tlačítka pro vymazání obsahu kreslícího plátna, volá metodu \textbf{clearCanvas} z třídy \textbf{Draw}.
+	\item Metoda \textbf{on\_slope\_button\_clicked} - reaguje na zmáčknutí tlačítka pro vypočet sklonu, volá metodu \textbf{setDrawSlope} z třídy \textbf{Draw}.
 
-	\item Metoda \textbf{on\_createRectButton\_clicked} - reaguje na zmáčknutí tlačítka pro vypočtení minimálního ohraničujícího obdélníka, volá metodu \textbf{setRect} z třídy \textbf{Draw}.
-
-	\item Metoda \textbf{on\_helpButton\_clicked} - reaguje na zmáčknutí tlačítka pro volání nápovědy, volá okno s nápovědou \textbf{help\_dialog} z třídy \textbf{HelpDialog}.
+	\item Metoda \textbf{on\_load\_points\_button\_clicked} - reaguje na zmáčknutí tlačítka pro načtení bodů, volá metodu \textbf{loadPoints} z třídy \textbf{Draw}.
+	
+	\item Metoda \textbf{on\_aspect\_button\_clicked} - reaguje na zmáčknutí tlačítka pro výpočet expozice , volá metodu \textbf{setDrawAspect} z třídy \textbf{Draw}.
+	
+	\item Metoda \textbf{on\_hyps\_button\_clicked} - reaguje na zmáčknutí tlačítka pro vykreslení hypsometrie, volá metodu \textbf{drawHypsometry} z třídy \textbf{Draw}.
 
 \end{itemize} 
 
-\vspace{3cm}
-\subsection{HelpDialog}
-Třída sloužící pro vykreslení okna s nápovědou.
 
 \clearpage
 
 \section{Přílohy}
 
 \begin{itemize}
-	\item Príloha č.1: Testování výpočetních dob algoritmů - "Testovani.pdf"
+	\item Príloha č.1: Testovacídata - \textit{testovaci\_data.txt}.
 \end{itemize}
  %--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \clearpage
 \section{Závěr}
 
-\subsection{Politování se a vysvětlení našeho problému}
+\subsection{Zhodnocení}
 
 \subsection{Návrhy na vylepšení}
 
@@ -598,8 +664,12 @@ Dostupné z: https://web.natur.cuni.cz/~bayertom/images/courses/Adk/adk5.pdf  \\
 
 \item  BAYER, Tomáš. 2D triangulace, DMT [online][cit. 30.11.2018]. \\
 Dostupné z: https://web.natur.cuni.cz/~bayertom/images/courses/Adk/adkcv3.pdf\\
+
+\item Tools: Aspect. ArcMap|ArcGIS Desktop [online]. Environmental Systems Research Institute, 2016 [cit. 2018-12-02]. \\
+Dostupné z: http://desktop.arcgis.com/en/arcmap/10.3/tools/spatial-analyst-toolbox/how-aspect-works.htm\\
 %=======================================================================================
 \end{enumerate}
+
 \end{document}
 
 
