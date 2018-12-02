@@ -216,20 +216,20 @@ Pokud je vstupními daty grid, dochází k nejednoznačnosti Delaunay triangulac
 %\end{figure}
 
 \subsection{Barevná hypsometrie}
-Myšlenka výpočtu barevné hypsometrie vychází z procházení všech trojúhelníků triangulace i s jejich vrstevnicemi. Výpočet pak vždy probíhá nad jedním trojúhelníkem. Vzhledem k tomu, že jediný moment při implementaci programu, kdy jsou trojúhelníky a jejich vrstevnice pohromadě, byl při výpočtu vrstevnic, probíhal výpočet hypsometrie zároveň s vrstevnicemi. Samostatný algoritmus vypadá následovně:
+Myšlenka výpočtu barevné hypsometrie vychází z procházení všech trojúhelníků triangulace i s jejich vrstevnicemi. Výpočet pak vždy probíhá nad jedním trojúhelníkem. Jediný moment při běhu programu, kdy lze získat trojúhelníky a jejich vrstevnice dohromady, je při výpočtu vrstevnic. Proto výpočet hypsometrie probíhá zároveň s výpočtem vrstevnic. Samostatný algoritmus vypadá následovně:
 
 \begin{enumerate}
 	\item Vytvoř vektor polygonů \textbf{pols} s údajem o jejich střední výšce
 	\item Procházej po jednom všechny trojúhelníky:
 		\begin{enumerate}
 			\item Do vektoru bodů \textbf{pts} ulož vrcholy trojúhelníku a krajní body vrstevnic
-			\item Vytvoř vektoru vektorů bodů \textbf{vec_pts} o velikosti počtu intervalů vrstevnic v rámci trojúhelníku (počítají se i krajní intervaly, ve kterých může ležet vrchol trojúhelníku)
+			\item Vytvoř vektor vektorů bodů \textbf{vec_pts} o velikosti počtu intervalů vrstevnic v rámci trojúhelníku (počítají se i krajní intervaly, ve kterých může ležet vrchol trojúhelníku)
 			\item Procházej vektor bodů \textbf{pts} a ulož body podle výšky do příslušného vektoru bodů z \textbf{vec_pts}.
 			\item Vypočítej konvexní obálku každého vektoru bodů z \textbf{vec_pts}, vypočti jejich průměrnou výšku a ulož do \textbf{pols}. 
 		\end{enumerate}
 	\item Seřaď \textbf{pols} bodle středních výšek.
 	\item Naškáluj tabulku barev podle počtu polygonů v \textbf{pols}.
-	\item Vykresly polygony.
+	\item Vykresli polygony.
 \end{enumerate}
 
 Pozn.: Pro vytvoření polygonů bylo třeba každou množinu bodů seřadit tak, aby byly ve správném pořadí. K tomu byl využit algoritmus Sweep Line z minulé úlohy (možná dělo na vrabce, ale funkční a již ověřené).
