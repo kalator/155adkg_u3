@@ -136,8 +136,8 @@ $$ y = \frac{(y_2-y_1)}{(z_2-z_1)}(z-z_1)+y_1.$$
 
 Sklon je úhel $\varphi$ mezi svislicí $n$ a normálou trojúhelníku $n_t$. Rovina trojúhelníku $t_j$ je určena vektory u,v.\\
 
-\noindent$$n = (0,0,1)$$
-$$n_t = \vec{u}\times \vec{v}$$
+\noindent $$n = (0,0,1)$$
+$n_t = \vec{u}\times \vec{v}$
 $$\varphi =\arccos(\frac{n_t \cdot n}{|n_t| |n|})$$
 \\
 Sklon je vizualizován odstíny šedi.
@@ -223,9 +223,9 @@ Myšlenka výpočtu barevné hypsometrie vychází z procházení všech trojúh
 	\item Procházej po jednom všechny trojúhelníky:
 		\begin{enumerate}
 			\item Do vektoru bodů \textbf{pts} ulož vrcholy trojúhelníku a krajní body vrstevnic
-			\item Vytvoř vektor vektorů bodů \textbf{vec_pts} o velikosti počtu intervalů vrstevnic v rámci trojúhelníku (počítají se i krajní intervaly, ve kterých může ležet vrchol trojúhelníku)
-			\item Procházej vektor bodů \textbf{pts} a ulož body podle výšky do příslušného vektoru bodů z \textbf{vec_pts}.
-			\item Vypočítej konvexní obálku každého vektoru bodů z \textbf{vec_pts}, vypočti jejich průměrnou výšku a ulož do \textbf{pols}. 
+			\item Vytvoř vektor vektorů bodů \textbf{vec\_pts} o velikosti počtu intervalů vrstevnic v rámci trojúhelníku (počítají se i krajní intervaly, ve kterých může ležet vrchol trojúhelníku)
+			\item Procházej vektor bodů \textbf{pts} a ulož body podle výšky do příslušného vektoru bodů z \textbf{vec\_pts}.
+			\item Vypočítej konvexní obálku každého vektoru bodů z \textbf{vec\_pts}, vypočti jejich průměrnou výšku a ulož do \textbf{pols}. 
 		\end{enumerate}
 	\item Seřaď \textbf{pols} bodle středních výšek.
 	\item Naškáluj tabulku barev podle počtu polygonů v \textbf{pols}.
@@ -337,7 +337,7 @@ Definice nového datového typu \textbf{QPoint3D}, který dědí od třídy \tex
 \subsection{QPolygonFZ}
 Definice nového datového typu \textbf{QPolygonFZ}, který dědí od třídy \textbf{QPolygonF}. Rozšíření o průměrnou výšku polygonu.
 \begin{itemize}
-	\item členská proměnná \textbf{double z_mid} - průměrná výška polygonu
+	\item členská proměnná \textbf{double z\_mid} - průměrná výška polygonu
 	\item public metody:
 	\begin{itemize}
 		\item \textbf{getZ} - získání průměrné výšky polygonu. Návratovým typem je \textbf{double}.
@@ -479,7 +479,7 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 	\item Tato metoda slouží k vypočtení souřadnic průsečíku vrstevnice a hrany DT. Návratovým typem je \textbf{QPoint3D}.
 	\item Vstup
 	\begin{itemize}
-		\item \textbf{QPoint3D \&p1,\&p2, double z}, z je výška vrstevnice, bod $p_1 resp. p_2$ je počáteční resp. koncový bod hrany.
+		\item \textbf{QPoint3D \&p1,\&p2, double z}, z je výška vrstevnice, bod $p_1$ resp. $p_2$ je počáteční resp. koncový bod hrany.
 	\end{itemize}
 	\item Výstup
 	\begin{itemize}	
@@ -489,13 +489,13 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 
 	\item Metoda \textbf{createContours}		
 \begin{itemize}
-	\item Tato metoda slouží k vypočtení vrstevnic a barevné hypsometrie. Návratovým typem je \textbf{std::vector$<$Edge$<$}.
+	\item Tato metoda slouží k vypočtení vrstevnic a barevné hypsometrie. Návratovým typem je \textbf{std::vector$<$Edge$>$}.
 	\item Vstup
 	\begin{itemize}
 		\item \textbf{std::vector$<$Edge$>$ \&dt} - vektor hran
 		\item \textbf{double z\_min, double z\_max, double dz} - rozsah vrstevnic a jejich krok
-		\item \textbf{std::vector$<$double$<$ \&contour\_heights} - vektor, do kterého jsou ukládány výšky vrstevnic, pořadí stejné jako pořadí hran vrstevnic ve výstupu z metody
-		\item \textbf{std::vector$<$QPolygonFZ$>$\&hyps} - vektor, do kterého jsou ukládány polygony jednoho intervalu vrstevnic v rámci jednoho trojúhelníku (pro barevnou hypsometrii). 
+		\item \textbf{std::vector$<$double$>$ \&contour\_heights} - vektor, do kterého jsou ukládány výšky vrstevnic, pořadí stejné jako pořadí hran vrstevnic ve výstupu z metody
+		\item \textbf{std::vector$<$QPolygonFZ$>$ \&hyps} - vektor, do kterého jsou ukládány polygony jednoho intervalu vrstevnic v rámci jednoho trojúhelníku (pro barevnou hypsometrii). 
 	\end{itemize}
 	\item Výstup
 	\begin{itemize}	
@@ -558,7 +558,7 @@ V třídě Algorithms jsou staticky implementovány algoritmy počítající Del
 	\item Tato metoda slouží k výpočtu konvexní obálky pomocí algoritmu Sweep Line. Jejím výstupním typem je \textbf{QPolygonF}. Metoda použita při výpočtu barevné hypsometrie.
 	\item Vstup
 	\begin{itemize}
-		\item \textbf{std::vector} $<$\textbf{QPointF}$>$ \textbf{points} - vektor bodů, kolem nichž má být vytvořená konvexní obálka.
+		\item \textbf{std::vector} $<$\textbf{QPointF}$>$ \textbf{\&points} - vektor bodů, kolem nichž má být vytvořená konvexní obálka.
 	\end{itemize}
 	\item Výstup
 	\begin{itemize}
@@ -724,7 +724,7 @@ Tato třída slouží ke komunikaci s GUI. Třída dědí od třídy QWidget. V�
 \section{Závěr}
 
 \subsection{Zhodnocení}
-Jistě že implementace barevné hypsometrie by šla provést určitě lépe a efektivnějí. Nicméně s naším postupem jsme spokojeni, protože jsme si ho vymysleli sami. To, že implementace zabrala hodně času (zvlášť ladění) a asi o hodně víc času (hloupé chyby -$>$ debugování (debeatlesování?) levelu Yoko Ono) než nepovinné úlohy za dvojnásobek bodů (resp. ta s generováním terénních útvarů), nám nevadí, protože jedeme spíš na to, co nás baví a barvičky baví každého.
+Jistě že implementace barevné hypsometrie by šla provést určitě lépe a efektivněji. Nicméně s naším postupem jsme spokojeni, protože jsme si ho vymysleli sami. To, že implementace zabrala hodně času (zvlášť ladění) a asi o hodně víc času (hloupé chyby -$>$ debugování (debeatlesování?) levelu Yoko Ono) než nepovinné úlohy za dvojnásobek bodů (resp. ta s generováním terénních útvarů), nám nevadí, protože jedeme spíš na to, co nás baví a barvičky baví každého.
 \subsection{Návrhy na vylepšení}
 Nynější automatické popisky vrstevnic jsou spíš ošklivé než hezké, přestože plní účel. Popisky by tedy chtělo vylepšit, aby respektovaly kartografické zásady. Dále by možná stála za to změna barevné mapy při vykreslování expozice. Expozice (ikdyž barvy jsou přebrané od ESRI) není takto moc intuitivní. 
 

@@ -9,19 +9,22 @@
 \BOOKMARK [2][-]{subsection.4.1}{Delaunayova triangulace}{section.4}% 9
 \BOOKMARK [3][-]{subsubsection.4.1.1}{Implementace metody}{subsection.4.1}% 10
 \BOOKMARK [3][-]{subsubsection.4.1.2}{Problematick\351 situace}{subsection.4.1}% 11
-\BOOKMARK [1][-]{section.5}{Vstupn\355 data}{}% 12
-\BOOKMARK [1][-]{section.6}{V\375stupn\355 data}{}% 13
-\BOOKMARK [1][-]{section.7}{Uk\341zka vytvoren\351 aplikace}{}% 14
-\BOOKMARK [1][-]{section.8}{Dokumentace}{}% 15
-\BOOKMARK [2][-]{subsection.8.1}{Algorithms}{section.8}% 16
-\BOOKMARK [2][-]{subsection.8.2}{Draw}{section.8}% 17
-\BOOKMARK [2][-]{subsection.8.3}{Edge}{section.8}% 18
-\BOOKMARK [2][-]{subsection.8.4}{QPoint3D}{section.8}% 19
-\BOOKMARK [2][-]{subsection.8.5}{SortByXAsc, SortByZAsc,}{section.8}% 20
-\BOOKMARK [2][-]{subsection.8.6}{Triangle}{section.8}% 21
-\BOOKMARK [2][-]{subsection.8.7}{Widget}{section.8}% 22
-\BOOKMARK [1][-]{section.9}{Pr\355lohy}{}% 23
-\BOOKMARK [1][-]{section.10}{Z\341ver}{}% 24
-\BOOKMARK [2][-]{subsection.10.1}{Zhodnocen\355}{section.10}% 25
-\BOOKMARK [2][-]{subsection.10.2}{N\341vrhy na vylep\235en\355}{section.10}% 26
-\BOOKMARK [1][-]{section.11}{Zdroje}{}% 27
+\BOOKMARK [2][-]{subsection.4.2}{Barevn\341 hypsometrie}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.3}{Automatick\375 popis vrstevnic}{section.4}% 13
+\BOOKMARK [1][-]{section.5}{Vstupn\355 data}{}% 14
+\BOOKMARK [1][-]{section.6}{V\375stupn\355 data}{}% 15
+\BOOKMARK [1][-]{section.7}{Uk\341zka vytvoren\351 aplikace}{}% 16
+\BOOKMARK [1][-]{section.8}{Dokumentace}{}% 17
+\BOOKMARK [2][-]{subsection.8.1}{QPoint3D}{section.8}% 18
+\BOOKMARK [2][-]{subsection.8.2}{QPolygonFZ}{section.8}% 19
+\BOOKMARK [2][-]{subsection.8.3}{Edge}{section.8}% 20
+\BOOKMARK [2][-]{subsection.8.4}{Triangle}{section.8}% 21
+\BOOKMARK [2][-]{subsection.8.5}{Sortovac\355 krit\351ria}{section.8}% 22
+\BOOKMARK [2][-]{subsection.8.6}{Algorithms}{section.8}% 23
+\BOOKMARK [2][-]{subsection.8.7}{Draw}{section.8}% 24
+\BOOKMARK [2][-]{subsection.8.8}{Widget}{section.8}% 25
+\BOOKMARK [1][-]{section.9}{Pr\355lohy}{}% 26
+\BOOKMARK [1][-]{section.10}{Z\341ver}{}% 27
+\BOOKMARK [2][-]{subsection.10.1}{Zhodnocen\355}{section.10}% 28
+\BOOKMARK [2][-]{subsection.10.2}{N\341vrhy na vylep\235en\355}{section.10}% 29
+\BOOKMARK [1][-]{section.11}{Zdroje}{}% 30
