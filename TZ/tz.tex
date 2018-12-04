@@ -191,18 +191,6 @@ Dílčí algoritmus Add:
 	\item $DT\longleftarrow (a,b)$ Přidej do DT
 \end{enumerate}
 
-\subsubsection{Problematické situace}
-Algoritmus DT není vhodný pro vyjádření terénu, kde jsou ostré hrany - např. chodník, silnice, zídky či ostré terénní hrany. Na obrázku níže je zobrazena DT a vypočtený sklonu silnice a jejího blízkého okolí. Hrany silnice nejsou patrné, a tím následně vznikne velmi nepřesný až chybný DMT. Je nutno dodat, že výškopis nebyl měřen se záměrem vytváření DMT, zároveň je však natolik podrobný, že při určení povinných hran by z něj bylo možné DMT vytvořit.
-
-%OBRÁZEK
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=15cm]{hrany.jpg}
-	\caption{Delaunay triangulace - hrany}
-\end{figure}
-
-
-Algoritmus je tedy vhodný k poloautomatickému zpracování, kde by se ručně zadaly povinné hrany nebo pro území bez výrazných terénních hran.
 
 \subsection{Barevná hypsometrie}
 Myšlenka výpočtu barevné hypsometrie vychází z procházení všech trojúhelníků triangulace i s jejich vrstevnicemi. Výpočet pak vždy probíhá nad jedním trojúhelníkem. Jediný moment při běhu programu, kdy lze získat trojúhelníky a jejich vrstevnice dohromady, je při výpočtu vrstevnic. Proto výpočet hypsometrie probíhá zároveň s výpočtem vrstevnic. Samostatný algoritmus vypadá následovně:
@@ -308,12 +296,82 @@ V sekci analysis je možné vypočíst a vizualizovat sklon a expozici či barev
 Vše je uvedeno do původního stavu (smazány body i vypočtené výsledky) kliknutím na tlačítko Clear.\\
 \clearpage
 
+\section{Zhodnocení algoritmu}
+
+Na obrázcích níže je porovnán DMT vyhotovený v SW Atlas se zadáváním povinných hran a DMT vytvořený v naší aplikaci.\\
 
 
+\textbf{Kráter}\\
+Terénní útvar s pracovním názvem kráter je DT poměrně hezky vystižen především s pomocí vrtevnic, samotný DMT bez vrstevnic už tak názorný není.
+ 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=8.5cm]{krater.jpg}
+	\caption{kráter - Atlas}
+\end{figure}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=8.5cm]{krater_nas.jpg}
+	\caption{kráter}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=8.5cm]{krater_nas2.jpg}
+	\caption{kráter - vrstevnice}
+\end{figure}
+\clearpage
+
+\textbf{Terénní hrana - silnice}
+
+Výrazná terénní hrana - okraj silnice je místy kostrbatá - bylo by třeba ji zadat jako povinnou.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=5cm]{hrana_atlas.jpg}
+	\caption{Hrana - Atlas}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=5cm]{hrana_nase.jpg}
+	\caption{Hrana}
+\end{figure}
 
 \clearpage
 
+\textbf{Hřbetnice}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{dmt_atlas.jpg}
+	\caption{Hřbetnice - Atlas}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{DMT_vrstevnice.jpg}
+	\caption{Hřbetnice}
+\end{figure}
+
+\clearpage
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{dmt_nas.jpg}
+	\caption{Hřbetnice - hypsometrie}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{DMT_hypsometrie.jpg}
+	\caption{Hrana}
+\end{figure}
+\clearpage
+
+\textbf{Celkové zhodnocení}\\
+
+Algoritmus DT není vhodný pro vyjádření terénu, kde jsou ostré hrany - např. chodník, silnice, zídky či ostré terénní hrany, což může být řešeno poloautomatickým zpracováním, kde by se ručně zadaly povinné hrany. Kráter a hřbetnice jsou v kombinaci s vrstevnicemi zobrazeny poměrně obstojně. Algoritmus je zcela vhodný pro území bez výrazných terénních prvků především hran.
+\clearpage
 %=======================================================================================
 
 \section {Dokumentace}
@@ -714,6 +772,7 @@ Tato třída slouží ke komunikaci s GUI. Třída dědí od třídy QWidget. V�
 
 \begin{itemize}
 	\item Příloha č.1: Testovací data - \textit{testovaci\_data.txt}.
+	\item Příloha č.2: Testovací data pro různé terénní prvky - \textit{testovaci\_data2.txt}.
 \end{itemize}
  %--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 \clearpage

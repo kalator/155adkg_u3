@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.11.13)  4 DEC 2018 14:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.11.13)  4 DEC 2018 16:17
 entering extended mode
 **./tz.tex
 (tz.tex
@@ -639,170 +639,241 @@ Package hyperref Warning: Composite letter `\textring+u'
 
 [4
 
-]
-<hrany.jpg, id=232, 672.71326pt x 475.17525pt>
-File: hrany.jpg Graphic file (type jpg)
-<use hrany.jpg>
-Package pdftex.def Info: hrany.jpg  used on input line 200.
-(pdftex.def)             Requested size: 426.79134pt x 301.47191pt.
- [5
+] [5
 
- <./hrany.jpg>] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 235--236
+]
+Underfull \hbox (badness 10000) in paragraph at lines 223--224
 
  []
 
-<hypsometrie.jpg, id=258, 672.71326pt x 475.17525pt>
+<hypsometrie.jpg, id=251, 672.71326pt x 475.17525pt>
 File: hypsometrie.jpg Graphic file (type jpg)
 <use hypsometrie.jpg>
-Package pdftex.def Info: hypsometrie.jpg  used on input line 247.
+Package pdftex.def Info: hypsometrie.jpg  used on input line 235.
 (pdftex.def)             Requested size: 284.52756pt x 200.97885pt.
-[7
+[6
 
  <./hypsometrie.jpg>]
 
 Package hyperref Warning: Composite letter `\textasciicaron+r'
 (hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 253.
+(hyperref)                removing `\textasciicaron' on input line 241.
 
-<aplikace.jpg, id=265, 581.7735pt x 475.17525pt>
+<aplikace.jpg, id=259, 581.7735pt x 475.17525pt>
 File: aplikace.jpg Graphic file (type jpg)
 <use aplikace.jpg>
-Package pdftex.def Info: aplikace.jpg  used on input line 259.
+Package pdftex.def Info: aplikace.jpg  used on input line 247.
 (pdftex.def)             Requested size: 284.52756pt x 232.39561pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 263--264
+Underfull \hbox (badness 10000) in paragraph at lines 251--252
 
  []
 
-<DT.jpg, id=266, 672.71326pt x 475.17525pt>
+<DT.jpg, id=260, 672.71326pt x 475.17525pt>
 File: DT.jpg Graphic file (type jpg)
 <use DT.jpg>
-Package pdftex.def Info: DT.jpg  used on input line 268.
+Package pdftex.def Info: DT.jpg  used on input line 256.
 (pdftex.def)             Requested size: 284.52756pt x 200.97885pt.
-[8
+[7
 
  <./aplikace.jpg> <./DT.jpg>]
-Overfull \hbox (6.62193pt too wide) in paragraph at lines 274--275
+Overfull \hbox (6.62193pt too wide) in paragraph at lines 262--263
 []\OT1/cmr/m/n/12 Pri vypoctu vrs-tev-nic je treba za-dat krok vrs-tev-nic 
 a (ne)zaskrtnout zvyraznen hlavnch
  []
 
-<vrstevnice.jpg, id=273, 672.71326pt x 475.17525pt>
+<vrstevnice.jpg, id=267, 672.71326pt x 475.17525pt>
 File: vrstevnice.jpg Graphic file (type jpg)
 <use vrstevnice.jpg>
-Package pdftex.def Info: vrstevnice.jpg  used on input line 279.
+Package pdftex.def Info: vrstevnice.jpg  used on input line 267.
 (pdftex.def)             Requested size: 284.52756pt x 200.97885pt.
-<sklon.jpg, id=274, 672.71326pt x 475.17525pt>
+<sklon.jpg, id=268, 672.71326pt x 475.17525pt>
 File: sklon.jpg Graphic file (type jpg)
 <use sklon.jpg>
-Package pdftex.def Info: sklon.jpg  used on input line 287.
+Package pdftex.def Info: sklon.jpg  used on input line 275.
 (pdftex.def)             Requested size: 284.52756pt x 200.97885pt.
-[9
+[8
 
  <./vrstevnice.jpg> <./sklon.jpg>]
-<aspect.jpg, id=281, 672.71326pt x 475.17525pt>
+<aspect.jpg, id=275, 672.71326pt x 475.17525pt>
 File: aspect.jpg Graphic file (type jpg)
 <use aspect.jpg>
-Package pdftex.def Info: aspect.jpg  used on input line 296.
+Package pdftex.def Info: aspect.jpg  used on input line 284.
 (pdftex.def)             Requested size: 284.52756pt x 200.97885pt.
 File: hypsometrie.jpg Graphic file (type jpg)
 <use hypsometrie.jpg>
-Package pdftex.def Info: hypsometrie.jpg  used on input line 303.
+Package pdftex.def Info: hypsometrie.jpg  used on input line 291.
 (pdftex.def)             Requested size: 284.52756pt x 200.97885pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 308--309
+Underfull \hbox (badness 10000) in paragraph at lines 296--297
 
  []
 
-[10
+[9
 
  <./aspect.jpg>]
-Overfull \hbox (6.2626pt too wide) in paragraph at lines 351--352
+Underfull \hbox (badness 10000) in paragraph at lines 301--302
+
+ []
+
+<krater.jpg, id=282, 549.85425pt x 308.352pt>
+File: krater.jpg Graphic file (type jpg)
+<use krater.jpg>
+Package pdftex.def Info: krater.jpg  used on input line 309.
+(pdftex.def)             Requested size: 241.84842pt x 135.62354pt.
+<krater_nas.jpg, id=283, 402.303pt x 230.0595pt>
+File: krater_nas.jpg Graphic file (type jpg)
+<use krater_nas.jpg>
+Package pdftex.def Info: krater_nas.jpg  used on input line 315.
+(pdftex.def)             Requested size: 241.84842pt x 138.30354pt.
+<krater_nas2.jpg, id=284, 342.68025pt x 156.585pt>
+File: krater_nas2.jpg Graphic file (type jpg)
+<use krater_nas2.jpg>
+Package pdftex.def Info: krater_nas2.jpg  used on input line 321.
+(pdftex.def)             Requested size: 241.84842pt x 110.51189pt.
+[10
+
+ <./krater.jpg> <./krater_nas.jpg> <./krater_nas2.jpg>]
+<hrana_atlas.jpg, id=292, 198.14024pt x 274.02374pt>
+File: hrana_atlas.jpg Graphic file (type jpg)
+<use hrana_atlas.jpg>
+Package pdftex.def Info: hrana_atlas.jpg  used on input line 332.
+(pdftex.def)             Requested size: 142.26378pt x 196.76173pt.
+<hrana_nase.jpg, id=293, 243.309pt x 381.8265pt>
+File: hrana_nase.jpg Graphic file (type jpg)
+<use hrana_nase.jpg>
+Package pdftex.def Info: hrana_nase.jpg  used on input line 338.
+(pdftex.def)             Requested size: 142.26378pt x 223.26564pt.
+ [11
+
+ <./hrana_atlas.jpg> <./hrana_nase.jpg>]
+<dmt_atlas.jpg, id=300, 258.36525pt x 403.5075pt>
+File: dmt_atlas.jpg Graphic file (type jpg)
+<use dmt_atlas.jpg>
+Package pdftex.def Info: dmt_atlas.jpg  used on input line 347.
+(pdftex.def)             Requested size: 284.52756pt x 444.40144pt.
+<DMT_vrstevnice.jpg, id=301, 592.614pt x 1053.33525pt>
+File: DMT_vrstevnice.jpg Graphic file (type jpg)
+<use DMT_vrstevnice.jpg>
+Package pdftex.def Info: DMT_vrstevnice.jpg  used on input line 353.
+(pdftex.def)             Requested size: 284.52756pt x 505.73982pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[12
+
+ <./dmt_atlas.jpg>] [13 <./DMT_vrstevnice.jpg>]
+<dmt_nas.jpg, id=313, 578.16pt x 1053.33525pt>
+File: dmt_nas.jpg Graphic file (type jpg)
+<use dmt_nas.jpg>
+Package pdftex.def Info: dmt_nas.jpg  used on input line 360.
+(pdftex.def)             Requested size: 284.52756pt x 518.37288pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<DMT_hypsometrie.jpg, id=314, 597.432pt x 1061.76675pt>
+File: DMT_hypsometrie.jpg Graphic file (type jpg)
+<use DMT_hypsometrie.jpg>
+Package pdftex.def Info: DMT_hypsometrie.jpg  used on input line 366.
+(pdftex.def)             Requested size: 284.52756pt x 505.67296pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[14 <./dmt_nas.jpg>] [15 <./DMT_hypsometrie.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 371--372
+
+ []
+
+[16
+
+
+]
+Overfull \hbox (6.2626pt too wide) in paragraph at lines 409--410
 []\OT1/cmr/bx/n/12 getS resp. getE \OT1/cmr/m/n/12 - zskan pocatecnho
  resp. kon-coveho bodu hrany. Navratovym
  []
 
-[11
+[17
 
-
-] [12]
-Overfull \hbox (4.54706pt too wide) in paragraph at lines 426--427
+] [18]
+Overfull \hbox (4.54706pt too wide) in paragraph at lines 484--485
 []\OT1/cmr/bx/n/12 QPoint3D &p, std::vector$\OML/cmm/m/it/12 <$\OT1/cmr/bx/n/12
  QPoint3D$\OML/cmm/m/it/12 >$ \OT1/cmr/bx/n/12 &points \OT1/cmr/m/n/12 - od bod
 u $\OML/cmm/m/it/12 p$ \OT1/cmr/m/n/12 je hledan
  []
 
-[13]
-Overfull \hbox (19.54794pt too wide) in paragraph at lines 493--494
+[19]
+Overfull \hbox (19.54794pt too wide) in paragraph at lines 551--552
 []\OT1/cmr/bx/n/12 std::vector$\OML/cmm/m/it/12 <$\OT1/cmr/bx/n/12 double$\OML/
 cmm/m/it/12 >$ \OT1/cmr/bx/n/12 &con-tour[]heights \OT1/cmr/m/n/12 - vek-tor, d
 o ktereho jsou ukladany
  []
 
-[14] [15]
-Overfull \hbox (42.59839pt too wide) in paragraph at lines 625--627
+[20] [21]
+Overfull \hbox (42.59839pt too wide) in paragraph at lines 683--685
 []\OT1/cmr/m/n/12 Metoda \OT1/cmr/bx/n/12 get-Points \OT1/cmr/m/n/12 Tato me-to
 da vrac clenskou promennou \OT1/cmr/bx/n/12 std::vector $\OML/cmm/m/it/12 <
 $\OT1/cmr/bx/n/12 QPoint3D$\OML/cmm/m/it/12 >$
  []
 
-[16] [17] [18
+[22] [23] [24
 
 ]
 
 Package hyperref Warning: Composite letter `\textasciicaron+r'
 (hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 713.
+(hyperref)                removing `\textasciicaron' on input line 771.
 
-[19
+[25
 
 ]
 
 Package hyperref Warning: Composite letter `\textasciicaron+e'
 (hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 720.
+(hyperref)                removing `\textasciicaron' on input line 779.
 
-[20
+[26
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 731--733
+Underfull \hbox (badness 10000) in paragraph at lines 790--792
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 734--736
+Underfull \hbox (badness 10000) in paragraph at lines 793--795
 
  []
 
 
-Overfull \hbox (42.0713pt too wide) in paragraph at lines 737--740
+Overfull \hbox (42.0713pt too wide) in paragraph at lines 796--799
 \OT1/cmr/m/n/12 Dostupne z: http://desktop.arcgis.com/en/arcmap/10.3/tools/spa
 tial-analyst-toolbox/how-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 737--740
+Underfull \hbox (badness 10000) in paragraph at lines 796--799
 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 742.
-[21
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 801.
+[27
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 742.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 801.
  (tz.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 742.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 742.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 801.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 801.
 Package rerunfilecheck Info: File `tz.out' has not changed.
-(rerunfilecheck)             Checksum: 2988BB632533F71767D16422B47A2D51;1860.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 742.
+(rerunfilecheck)             Checksum: C790D67F93DE42463FDBF5B1F3FAF4A4;1836.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 801.
  ) 
 Here is how much of TeX's memory you used:
- 10153 strings out of 492970
- 148081 string characters out of 3127037
+ 10207 strings out of 492970
+ 148929 string characters out of 3127037
  266270 words of memory out of 3000000
- 13766 multiletter control sequences out of 15000+200000
+ 13798 multiletter control sequences out of 15000+200000
  10449 words of font info for 39 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  37i,8n,39p,567b,624s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -829,9 +900,9 @@ pe1/public/amsfonts/cm/cmti10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX
 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Anna/AppData/Local/Prog
 rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti9.pfb><C:/Users/Anna/AppData
 /Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on tz.pdf (22 pages, 2217618 bytes).
+Output written on tz.pdf (28 pages, 4723661 bytes).
 PDF statistics:
- 402 PDF objects out of 1000 (max. 8388607)
- 97 named destinations out of 1000 (max. 500000)
- 292 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 446 PDF objects out of 1000 (max. 8388607)
+ 111 named destinations out of 1000 (max. 500000)
+ 332 words of extra memory for PDF output out of 10000 (max. 10000000)
 
