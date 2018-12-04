@@ -192,28 +192,17 @@ Dílčí algoritmus Add:
 \end{enumerate}
 
 \subsubsection{Problematické situace}
-Pokud je vstupními daty grid, dochází k nejednoznačnosti Delaunay triangulace - na opsané kružnici leží čtyři body. V tom případě nefunguje výpočet vrstevnic ani následných analýz.
+Algoritmus DT není vhodný pro vyjádření terénu, kde jsou ostré hrany - např. chodník, silnice, zídky či ostré terénní hrany. Na obrázku níže je zobrazena DT a vypočtený sklonu silnice a jejího blízkého okolí. Hrany silnice nejsou patrné, a tím následně vznikne velmi nepřesný až chybný DMT. Je nutno dodat, že výškopis nebyl měřen se záměrem vytváření DMT, zároveň je však natolik podrobný, že při určení povinných hran by z něj bylo možné DMT vytvořit.
 
 %OBRÁZEK
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=10cm]{grid.jpg}
-%	\caption{Delaunay triangulace - grid}
-%\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=15cm]{hrany.jpg}
+	\caption{Delaunay triangulace - hrany}
+\end{figure}
 
-%OBRÁZEK
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=10cm]{vrstevnice_grid.jpg}
-%	\caption{Vrstevnice - grid}
-%\end{figure}
 
-%OBRÁZEK
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=10cm]{sklon_grid.jpg}
-%	\caption{Sklon - grid}
-%\end{figure}
+Algoritmus je tedy vhodný k poloautomatickému zpracování, kde by se ručně zadaly povinné hrany nebo pro území bez výrazných terénních hran.
 
 \subsection{Barevná hypsometrie}
 Myšlenka výpočtu barevné hypsometrie vychází z procházení všech trojúhelníků triangulace i s jejich vrstevnicemi. Výpočet pak vždy probíhá nad jedním trojúhelníkem. Jediný moment při běhu programu, kdy lze získat trojúhelníky a jejich vrstevnice dohromady, je při výpočtu vrstevnic. Proto výpočet hypsometrie probíhá zároveň s výpočtem vrstevnic. Samostatný algoritmus vypadá následovně:
@@ -269,45 +258,50 @@ Výsledky aplikace jsou vizualizovány v kanvasu grafického rozhraní.
 	\caption{Rozvržení aplikace}
 \end{figure}
 
-Nejprve je třeba nahrát vstupní data pomocí tlačítka \textit{Load points} a následně je možné vypočítat Delaunay triangulaci, teprve poté jsou zpřístupněna i ostatní tlačítka aplikace. \\
+Nejprve je třeba nahrát vstupní data pomocí tlačítka \textit{Load points} a následně je možné vypočítat Delaunay triangulaci, teprve poté jsou zpřístupněna i ostatní tlačítka aplikace kromě barevné hypsometrie. \\
 
 %OBRÁZEK
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=10cm]{DT.jpg}
-%	\caption{Delaunay triangulace}
-%\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{DT.jpg}
+	\caption{Delaunay triangulace}
+\end{figure}
+
+\clearpage
 
 Při výpočtu vrstevnic je třeba zadat krok vrstevnic a (ne)zaškrtnout zvýraznění hlavních vrstevnic. Po výpočtu vrstevnic je zpřístupněno tlačítko pro barevnou hypsometrii.
 
 %OBRÁZEK
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=10cm]{vrstevnice.jpg}
-%	\caption{Vrstevnice}
-%\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{vrstevnice.jpg}
+	\caption{Vrstevnice}
+\end{figure}
 
 V sekci analysis je možné vypočíst a vizualizovat sklon a expozici či barevnou hypsometrii. Po opětovném stisknutí příslušného tlačítka se daná vizualizace opět skryje.
 %OBRÁZEK
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=10cm]{sklon.jpg}
-%	\caption{Sklon}
-%\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{sklon.jpg}
+	\caption{Sklon}
+\end{figure}
+
+\clearpage
 
 %OBRÁZEK
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=10cm]{expozice.jpg}
-%	\caption{Expozice}
-%\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{aspect.jpg}
+	\caption{Expozice}
+\end{figure}
 
 %OBRÁZEK
-%\begin{figure}[h]
-%	\centering
-%	\includegraphics[width=10cm]{hypsometrie.jpg}
-%	\caption{Barevná hypsometrie}
-%\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=10cm]{hypsometrie.jpg}
+	\caption{Barevná hypsometrie}
+\end{figure}
+
 
 Vše je uvedeno do původního stavu (smazány body i vypočtené výsledky) kliknutím na tlačítko Clear.\\
 \clearpage
@@ -724,9 +718,9 @@ Tato třída slouží ke komunikaci s GUI. Třída dědí od třídy QWidget. V�
 \section{Závěr}
 
 \subsection{Zhodnocení}
-Jistě že implementace barevné hypsometrie by šla provést určitě lépe a efektivněji. Nicméně s naším postupem jsme spokojeni, protože jsme si ho vymysleli sami. To, že implementace zabrala hodně času (zvlášť ladění) a asi o hodně víc času (hloupé chyby -$>$ debugování (debeatlesování?) levelu Yoko Ono) než nepovinné úlohy za dvojnásobek bodů (resp. ta s generováním terénních útvarů), nám nevadí, protože jedeme spíš na to, co nás baví a barvičky baví každého.
+Implementace barevné hypsometrie by šla provést určitě lépe a efektivněji, nicméně s naším postupem jsme spokojeni, protože jsme si ho vymysleli sami. To, že implementace zabrala hodně času (zvlášť ladění) a asi o hodně víc času (hloupé chyby -$>$ debugování (debeatlesování?) levelu Yoko Ono) než nepovinné úlohy za dvojnásobek bodů (resp. ta s generováním terénních útvarů), nám nevadí, protože jedeme spíš na to, co nás baví a barvičky baví každého.
 \subsection{Návrhy na vylepšení}
-Nynější automatické popisky vrstevnic jsou spíš ošklivé než hezké, přestože plní účel. Popisky by tedy chtělo vylepšit, aby respektovaly kartografické zásady. Dále by možná stála za to změna barevné mapy při vykreslování expozice. Expozice (ikdyž barvy jsou přebrané od ESRI) není takto moc intuitivní. 
+Nynější automatické popisky vrstevnic jsou spíš ošklivé než hezké, přestože plní účel. Popisky by tedy chtělo vylepšit, aby respektovaly kartografické zásady. Dále by možná stála za to změna barevné mapy při vykreslování expozice. Expozice (i když barvy jsou přebrané od ESRI) není takto moc intuitivní. 
 
 \clearpage
 \section{Zdroje}
