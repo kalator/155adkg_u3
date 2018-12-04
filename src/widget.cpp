@@ -129,11 +129,13 @@ void Widget::on_load_points_button_clicked()
     //enable triangulation button
     if(!(ui->Canvas->getPoints().empty()))
         ui->trg_button->setEnabled(true);
+    else ui->trg_button->setEnabled(false);
 
     //disable analysis buttons
     ui->cont_button->setEnabled(false);
     ui->slope_button->setEnabled(false);
     ui->aspect_button->setEnabled(false);
+    ui->hyps_button->setEnabled(false);
     ui->pic->clear();
 }
 
